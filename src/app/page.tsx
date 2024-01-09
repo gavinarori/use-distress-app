@@ -1,11 +1,11 @@
 "use client"
-import Image from 'next/image';
+import axios from 'axios';
 import { useEffect,  useState } from 'react';
 import { useSession} from 'next-auth/react';
 import { useRouter } from "next/navigation"
 
 
-async function Home( {  latitude, longitude , accuracy }:any) {
+function Home( {  latitude, longitude , accuracy }:any) {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
@@ -63,16 +63,23 @@ async function Home( {  latitude, longitude , accuracy }:any) {
     }
   };
 
-  const res = fetch("http://localhost:3000/api/signal", {
-    method: "POST",
-    body: JSON.stringify({  latitude, longitude , accuracy }),
-    //@ts-ignore
-    "Content-Type": "application/json",
+  axios.post('http://localhost:3000/api/signal', {
+    Latitude: userLocation?.coords?.latitude,
+    Longitude: userLocation?.coords?.longitude,
+    accuracy: userLocation?.coords?.accuracy,
+    Timestamp: userLocation?.timestamp
+
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
   });
-  return (await res).json();
-};
+
+
+
   return (
-    
       <main className="flex min-h-screen flex-col items-center   justify-between p-24">
         {showPermissionModal && (
            <div className="fixed z-10 inset-0 overflow-y-auto" id="my-modal">
@@ -188,6 +195,6 @@ async function Home( {  latitude, longitude , accuracy }:any) {
     </div>
 </div>
       </main>
-  );
+  )
       }
       export default Home
