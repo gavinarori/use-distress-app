@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning={true}>
         <div className='bg-gradient-to-r from-rose-100 to-teal-100 '>
         <Provider>
         <Navbar />

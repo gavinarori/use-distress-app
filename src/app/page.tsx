@@ -53,8 +53,37 @@ function Home( {  latitude, longitude , accuracy }:any) {
   const handlePermissionButtonClick = () => {
     setShowPermissionModal(false);
   };
+  
   const handleClick = () => {
     setShowSVG(!showSVG);
+
+    axios.post('http://localhost:3000/api/signal', {
+      Latitude: userLocation?.coords?.latitude,
+      Longitude: userLocation?.coords?.longitude,
+      accuracy: userLocation?.coords?.accuracy,
+      Timestamp: userLocation?.timestamp
+    })
+      .then(response => {
+        console.log('Response:', response);
+        if (response.status === 200) {
+          console.log('Signal sent successfully:', response.data);
+        } else {
+          console.warn('Unexpected status code:', response.status);
+        }
+      })
+      .catch(error => {
+        console.error('Failed to send signal:', error);
+        if (error.response) {
+          console.error('Server responded with:', error.response.data);
+          console.error('Status code:', error.response.status);
+          console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+          console.error('No response received. Request details:', error.request);
+        } else {
+          console.error('Error setting up the request:', error.message);
+        }
+      });
+    
   };
   const closeModal = () => {
     const modal = document.getElementById('my-modal');
@@ -63,19 +92,7 @@ function Home( {  latitude, longitude , accuracy }:any) {
     }
   };
 
-  axios.post('http://localhost:3000/api/signal', {
-    Latitude: userLocation?.coords?.latitude,
-    Longitude: userLocation?.coords?.longitude,
-    accuracy: userLocation?.coords?.accuracy,
-    Timestamp: userLocation?.timestamp
 
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
 
 
 
