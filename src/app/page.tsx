@@ -3,15 +3,17 @@ import axios from 'axios';
 import { useEffect,  useState } from 'react';
 import { useSession} from 'next-auth/react';
 import { useRouter } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 
 
-function Home( {  latitude, longitude , accuracy }:any) {
+function Home() {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
   const session = useSession()
+  const { toast } = useToast()
 
   useEffect(() => {
     
@@ -66,13 +68,24 @@ function Home( {  latitude, longitude , accuracy }:any) {
       .then(response => {
         console.log('Response:', response);
         if (response.status === 200) {
-          console.log('Signal sent successfully:', response.data);
+          console.log( response.data);
+          toast({
+            description:'Signal sent successfully',
+          })
         } else {
-          console.warn('Unexpected status code:', response.status);
+          console.warn(response.status);
+          toast({
+            variant: "destructive",
+            description:'Unexpected status code',
+          })
         }
       })
       .catch(error => {
-        console.error('Failed to send signal:', error);
+        console.error( error);
+        toast({
+          variant: "destructive",
+          description:'Failed to send signal:',
+        })
         if (error.response) {
           console.error('Server responded with:', error.response.data);
           console.error('Status code:', error.response.status);
