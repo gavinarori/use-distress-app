@@ -6,13 +6,14 @@ import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 
 
+
 function Home() {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
-  const session = useSession()
+  const { data: session } = useSession();
   const { toast } = useToast()
 
   useEffect(() => {
@@ -58,46 +59,47 @@ function Home() {
   
   const handleClick = () => {
     setShowSVG(!showSVG);
-
-    axios.post('http://localhost:3000/api/signal', {
-      Latitude: userLocation?.coords?.latitude,
-      Longitude: userLocation?.coords?.longitude,
-      accuracy: userLocation?.coords?.accuracy,
-      Timestamp: userLocation?.timestamp
-    })
-      .then(response => {
-        console.log('Response:', response);
-        if (response.status === 200) {
-          console.log( response.data);
-          toast({
-            description:'Signal sent successfully',
-          })
-        } else {
-          console.warn(response.status);
-          toast({
-            variant: "destructive",
-            description:'Unexpected status code',
-          })
-        }
-      })
-      .catch(error => {
-        console.error( error);
-        toast({
-          variant: "destructive",
-          description:'Failed to send signal:',
-        })
-        if (error.response) {
-          console.error('Server responded with:', error.response.data);
-          console.error('Status code:', error.response.status);
-          console.error('Headers:', error.response.headers);
-        } else if (error.request) {
-          console.error('No response received. Request details:', error.request);
-        } else {
-          console.error('Error setting up the request:', error.message);
-        }
-      });
     
   };
+
+  const sendData = async () => {
+    try {
+      const response = await fetch('/api/signal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Latitude: userLocation?.coords?.latitude,
+          Longitude: userLocation?.coords?.longitude,
+          accuracy: userLocation?.coords?.accuracy,
+          timestamp: userLocation?.timestamp,
+          userId: session?.user,
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Response:', data);
+        toast({
+          description: 'Signal sent successfully',
+        });
+      } else {
+        console.warn(response.status);
+        toast({
+          variant: 'destructive',
+          description: 'Unexpected status code',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        description: 'Failed to send signal:',
+      });
+    }
+  };
+  
   const closeModal = () => {
     const modal = document.getElementById('my-modal');
     if (modal) {
