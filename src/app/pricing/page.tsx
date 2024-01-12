@@ -65,7 +65,7 @@ const Pricing = () => {
                         </div>
                         <div className="pt-2">
                             <a href="/billing" type="button" target="_blank"
-                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-black text-white py-4 px-5 rounded-2xl cursor-pointer"><span
+                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-[#ef5a5a] text-white py-4 px-5 rounded-2xl cursor-pointer"><span
                                     className="w-full font-semibold text-base">Choose Starter</span>
                                 <svg className="inline-block h-6" viewBox="0 0 24 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +173,7 @@ const Pricing = () => {
                         </div>
                         <div className="pt-2">
                             <a href="/billing" type="button" target="_blank"
-                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-black text-white py-4 px-5 rounded-2xl cursor-pointer"><span
+                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-[#ef5a5a] text-white py-4 px-5 rounded-2xl cursor-pointer"><span
                                     className="w-full font-semibold text-base">Choose Startup</span>
                                 <svg className="inline-block h-6" viewBox="0 0 24 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -266,7 +266,7 @@ const Pricing = () => {
                         </div>
                         <div className="pt-2">
                             <a href="/billing" type="button" target="_blank"
-                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-black text-white py-4 px-5 rounded-2xl cursor-pointer"><span
+                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-[#ef5a5a] text-white py-4 px-5 rounded-2xl cursor-pointer"><span
                                     className="w-full font-semibold text-base">Choose Pro</span>
                                 <svg className="inline-block h-6" viewBox="0 0 24 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -368,7 +368,7 @@ const Pricing = () => {
                         </div>
                         <div className="pt-2">
                             <a href="/billing" type="button" target="_blank"
-                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-black text-white py-4 px-5 rounded-2xl cursor-pointer"><span
+                                className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-[#ef5a5a] text-white py-4 px-5 rounded-2xl cursor-pointer"><span
                                     className="w-full font-semibold text-base">Choose Free</span>
                                 <svg className="inline-block h-6" viewBox="0 0 24 25" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -429,7 +429,7 @@ const Pricing = () => {
                     </div>
                     <div className="pt-2">
                         <a href="#" type="button"
-                            className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-black text-white py-4 px-5 rounded-2xl cursor-pointer"><span
+                            className="appearance-none inline-flex hover:shadow-2xl transition-all duration-300 hover:scale-105 items-center group space-x-2.5 bg-[#ef5a5a] text-white py-4 px-5 rounded-2xl cursor-pointer"><span
                                 className="w-full font-semibold text-base">Contact Sales</span>
                             <svg className="inline-block h-6" viewBox="0 0 24 25" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">

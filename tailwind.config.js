@@ -58,7 +58,7 @@ module.exports = {
           brand: {
             faint: '#eff6ff',
             muted: '#bfdbfe',
-            subtle: '#60a5fa',
+            subtle: '#ef5a5a',
             DEFAULT: '#3b82f6',
             emphasis: '#1d4ed8',
             inverted: '#ffffff',

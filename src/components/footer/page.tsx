@@ -21,7 +21,7 @@ const Footer = () => {
           />
 
           <button
-            className="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
+            className="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-[#ef5a5a] px-5 py-3 text-sm font-medium text-white transition hover:bg-red-300"
           >
             Subscribe
           </button>

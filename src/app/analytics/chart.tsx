@@ -22,7 +22,7 @@ const data = [
 
 export default function Example() {
   return (
-    <Card className="mt-8 bg-gray-100 rounded-xl ">
+    <Card className="mt-8  rounded-xl ">
       <Title>Performance</Title>
       <Text>Comparison between Sales and Profit</Text>
       <AreaChart
@@ -30,7 +30,7 @@ export default function Example() {
         data={data}
         categories={['Sales', 'Profit']}
         index="Month"
-        colors={['indigo', 'fuchsia']}
+        colors={['red', 'blue']}
         valueFormatter={(number: number) =>
           `$ ${Intl.NumberFormat('us').format(number).toString()}`
         }
