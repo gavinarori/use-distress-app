@@ -8,8 +8,14 @@ interface CrimeData {
   };
 }
 
+interface TransformedData {
+  Month: string;
+  [offense: string]: number | string;
+}
+
 export default function CrimeAreaChart() {
   const [crimeData, setCrimeData] = useState<CrimeData[]>([]);
+  const categories = ['HOMICIDE', 'THEFT/OTHER', 'ROBBERY', 'MOTOR VEHICLE THEFT', 'ASSAULT W/DANGEROUS WEAPON', 'BURGLARY', 'THEFT F/AUTO'];
 
   useEffect(() => {
     const fetchCrimeData = async () => {
@@ -27,13 +33,37 @@ export default function CrimeAreaChart() {
     fetchCrimeData();
   }, []);
 
+  // Create a dictionary to store counts for each offense
+  const offenses: Record<string, Record<string, number>> = {};
 
-  const transformedData = crimeData.map((record) => ({
-    Month: new Date(record.attributes.REPORT_DAT).toLocaleString('default', { month: 'short', year: 'numeric' }),
-    [record.attributes.OFFENSE]: 1, // Assuming each crime event counts as 1
-  }));
+  // Loop through crimeData to count offenses for each day and each category
+  crimeData.forEach((record) => {
+    const month = new Date(record.attributes.REPORT_DAT).toLocaleString('default', { month: 'short', year: 'numeric' });
+    const offense = record.attributes.OFFENSE;
 
-  const categories = ['HOMICIDE', 'THEFT/OTHER', 'ROBBERY', 'MOTOR VEHICLE THEFT', 'ASSAULT W/DANGEROUS WEAPON', 'BURGLARY', 'THEFT F/AUTO'];
+    if (!offenses[month]) {
+      offenses[month] = {};
+    }
+
+    if (!offenses[month][offense]) {
+      offenses[month][offense] = 1;
+    } else {
+      offenses[month][offense]++;
+    }
+  });
+
+  // Transform data for the chart
+  const transformedData: TransformedData[] = Object.keys(offenses).map((month) => {
+    const offenseCounts = offenses[month];
+    const transformedEntry: TransformedData = { Month: month };
+  
+    // Assign the count for each offense category
+    categories.forEach((category) => {
+      transformedEntry[category] = offenseCounts?.[category] || 0;
+    });
+  
+    return transformedEntry;
+  });
 
   return (
     <Card className="mt-8  rounded-xl ">
@@ -45,7 +75,7 @@ export default function CrimeAreaChart() {
         categories={categories}
         index="Month"
         colors={['red', 'blue', 'green', 'orange', 'purple', 'pink', 'brown']}
-        valueFormatter={(number: number) => number.toString()} 
+        valueFormatter={(number: number) => number.toString()}
         yAxisWidth={60}
       />
     </Card>
