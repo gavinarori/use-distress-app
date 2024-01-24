@@ -33,10 +33,8 @@ export default function CrimeAreaChart() {
     fetchCrimeData();
   }, []);
 
-  // Create a dictionary to store counts for each offense
   const offenses: Record<string, Record<string, number>> = {};
 
-  // Loop through crimeData to count offenses for each day and each category
   crimeData.forEach((record) => {
     const month = new Date(record.attributes.REPORT_DAT).toLocaleString('default', { month: 'short', year: 'numeric' });
     const offense = record.attributes.OFFENSE;
@@ -52,12 +50,10 @@ export default function CrimeAreaChart() {
     }
   });
 
-  // Transform data for the chart
   const transformedData: TransformedData[] = Object.keys(offenses).map((month) => {
     const offenseCounts = offenses[month];
     const transformedEntry: TransformedData = { Month: month };
   
-    // Assign the count for each offense category
     categories.forEach((category) => {
       transformedEntry[category] = offenseCounts?.[category] || 0;
     });
