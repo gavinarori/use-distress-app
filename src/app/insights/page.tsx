@@ -243,7 +243,7 @@ const Insights: React.FC = () => {
     };
 
     fetchCrimeData();
-  }, []); // Empty dependency array to run the effect only once
+  }, []); 
 
   return (
     <div className="py-24 sm:py-32">
@@ -272,6 +272,11 @@ const Insights: React.FC = () => {
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto max-w-7xl w-full">
+        <DrawerHeader>
+            <DrawerTitle>Move Goal</DrawerTitle>
+            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          </DrawerHeader>
+          
           <div className="">
   
   <div className="flex h-[400px] items-center justify-center  ">
