@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import Snaky from './Snaky';
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -115,14 +116,20 @@ const Insights: React.FC = () => {
         </div>
         <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
+        <div className='flex items-center space-x-4 justify-center mt-11'>
+        <button type="button" className="py-2 px-4 max-w-md  flex justify-center items-center bg-[#ef5a5a] text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
+  see preview
+</button>
+        </div>
+
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto max-w-7xl w-full">
         <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            <DrawerTitle>Sankey Chart</DrawerTitle>
+            <DrawerDescription>This chart visualizes the flow of offenses categorized by Counts.</DrawerDescription>
           </DrawerHeader>
+          <Snaky />
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
