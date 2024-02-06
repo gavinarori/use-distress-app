@@ -30,7 +30,7 @@ const Insights: React.FC = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         if (data && data.features) {
           const filteredData = data.features.filter((feature: any) => categories.includes(feature.attributes.OFFENSE));
           generateInsights(filteredData);
