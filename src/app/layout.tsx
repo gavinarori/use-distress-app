@@ -5,6 +5,8 @@ import {Navbar} from '@/components/navbar/page'
 import Footer from '@/components/footer/page'
 import Provider from '@/context/AuthContext'
 import { Toaster } from "@/components/ui/toaster"
+import { Suspense } from 'react';
+import Loading from './loading'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +26,9 @@ export default function RootLayout({
         <div className='bg-gradient-to-r from-rose-100 to-teal-100 '>
         <Provider>
         <Navbar />
+        <Suspense fallback={<Loading />}>
         {children}
+      </Suspense>
         <Footer/>
         </Provider>
         </div>
