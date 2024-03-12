@@ -1,0 +1,16 @@
+.frame{
+position: absolute;
+width: 390px;
+height: 844px;
+left: calc(50% - 390px/2);
+top: calc(50% - 844px/2);
+}
+
+.logo{
+position: absolute;
+width: 128px;
+height: 128px;
+left: calc(50% - 128px/2);
+top: calc(50% - 128px/2);
+}
+

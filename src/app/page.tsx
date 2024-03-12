@@ -4,6 +4,14 @@ import { useEffect,  useState } from 'react';
 import { useSession} from 'next-auth/react';
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 
 
@@ -189,43 +197,23 @@ function Home() {
         />
       )}
 </div>
-
-
-
-          
-          <div >
-
-     <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3  gap-4 p-10 pt-28">
-
-        <div className="block rounded-xl border border-gray-800 p-4 cursor-pointer">
-            <h2 className="mt-2 font-semibold text-base sm:text-lg ">
-                For Developers
-            </h2>
-            <p className="sm:mt-1 block text-sm sm:text-base "> Prototype ideas
-                online, without depending on your local environment.
-            </p>
-        </div>
-
-        <div className="block rounded-xl border border-gray-800 p-4 cursor-pointer">
-            
-            <h2 className="mt-2 font-semibold text-base sm:text-lg ">
-                Content creators
-            </h2>
-            <p className="sm:mt-1 block text-sm sm:text-base "> Deliver
-                high-quality, engaging blogs, articles, and video tutorials to your audience.
-            </p>
-        </div>
-
-        <div className="block rounded-xl border border-gray-800 p-4 cursor-pointer">
-            <h2 className="mt-2 font-bold text-base sm:text-md ">
-                Open source
-                maintainers </h2>
-            <p className="sm:mt-1 block text-sm sm:text-base ">For issue
-                reproduction while letting your users try your work without installing it
-            </p>
-        </div>
-    </div>
-</div>
+<Carousel className="w-full max-w-xs">
+      <CarouselContent>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <CarouselItem key={index}>
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <span className="text-4xl font-semibold">{index + 1}</span>
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
       </main>
   )
       }
