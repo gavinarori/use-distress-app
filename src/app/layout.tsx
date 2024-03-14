@@ -7,7 +7,6 @@ import Provider from '@/context/AuthContext'
 import { Toaster } from "@/components/ui/toaster"
 import { Suspense } from 'react';
 import Loading from './loading'
-import { MantineProvider } from '@mantine/core';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,18 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-      <MantineProvider>
-      <div className='bg-gradient-to-r from-rose-100 to-teal-100 '>
+      <div className=''>
         <Provider>
-        <Navbar />
         <Suspense fallback={<Loading />}>
         {children}
       </Suspense>
-        <Footer/>
         </Provider>
         </div>
         <Toaster />
-      </MantineProvider>
         </body>
     </html>
   )

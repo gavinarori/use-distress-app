@@ -31,6 +31,7 @@ function Home() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log('User Location:', position.coords.latitude, position.coords.longitude);
           setUserLocation(position);
         },
         (GeolocationPositionError) => {
