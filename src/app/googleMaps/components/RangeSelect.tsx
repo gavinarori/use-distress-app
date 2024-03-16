@@ -5,7 +5,7 @@ interface RangeSelectProps {
 }
 
 function RangeSelect({ onRadiusChange }: RangeSelectProps) {
-    const [radius, setRadius] = useState<number>(2500);
+    const [radius, setRadius] = useState<number>(30);
 
     return (
         <div className='mt-5 px-2'>
@@ -13,9 +13,9 @@ function RangeSelect({ onRadiusChange }: RangeSelectProps) {
             <input
                 type='range'
                 className='w-full h-2 bg-[#FF8080] rounded-lg appearance-none cursor-pointer'
-                min="500"
-                max="5000"
-                step="500"
+                min="30"
+                max="100"
+                step="10"
                 onChange={(e) => { 
                     const newRadius = parseInt(e.target.value);
                     setRadius(newRadius);

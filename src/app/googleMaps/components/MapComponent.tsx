@@ -1,4 +1,3 @@
-// Import dependencies for React, Leaflet and other functionalities.
 import React, { useState, useEffect, useRef, FC } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import L from 'leaflet';
@@ -6,13 +5,11 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
 
-// Define the interface for MarkerData.
 interface MarkerData {
   coordinates: [number, number];
   title: string;
 }
 
-// Loader component for showing loading animation.
 const Loader = () => {
   return (
     <div className="absolute z-[10000] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -36,21 +33,13 @@ const Loader = () => {
   );
 };
 
-
-
-// Main component definition.
-const MapComponent: FC = () => {
-  // Initialize local state.
-  const [inputValue, setInputValue] = useState<string>("");
-  const [markerData, setMarkerData] = useState<MarkerData | null>(null);
+const MapComponent: FC<{ radius: number }> = ({ radius }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [crimeData, setCrimeData] = useState<any[]>([]);
 
-  // Declare useRef to reference map.
   const mapRef = useRef<any | null>(null);
 
-  // Define custom icon configuration.
   const myIcon = L.icon({
     iconUrl: '/placeholder.png',
     iconSize: [38, 39],
@@ -61,84 +50,22 @@ const MapComponent: FC = () => {
     shadowAnchor: [22, 94]
   });
 
-  // ZoomHandler component for handling map zoom events.
-  const ZoomHandler: FC = () => {
-    // Use Leaflet's useMap hook.
-    const map = useMap();
+  const crimeIcon = L.icon({
+    iconUrl: '/alarm.png',
+    iconSize: [38, 38],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+  });
 
-    // Function to fly map to given coordinates.
-    const flyToMarker = (coordinates: [number, number], zoom: number) => {
-      if (coordinates && typeof coordinates[0] !== "undefined") {
-        map.flyTo(coordinates, zoom, {
-          animate: true,
-          duration: 1.5,
-        });
-      }
-    };
-
-    useMapEvents({
-      zoomend: () => {
-        setLoading(false);
-      },
-    });
-
-    // useEffect to trigger the map fly when markerData changes.
-    useEffect(() => {
-      if (markerData) {
-        if (markerData.coordinates && typeof markerData.coordinates[0] !== "undefined") {
-          flyToMarker(markerData.coordinates, 11);
-        }
-      }
-    }, [markerData]);
-
-    // Return null as we're not rendering anything in the DOM.
-    return null;
-  };
-
-  // Function to handle form submission.
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      // Set loading state and clear the input.
-      setSubmittedQuestion(inputValue);
-      setInputValue("");
-
-      // Make the API request using fetch.
-      const response = await fetch("/api/Coordinates", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ value: inputValue }),
-      });
-
-      // Parse and set the response data.
-      const data = await response.json();
-      setMarkerData(data);
-    } catch (error) {
-      // Log errors.
-      console.error(error);
-    }
-  };
-
-  // Get user's location when the component mounts.
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      setUserLocation([pos.coords.latitude, pos.coords.longitude]);
-    });
-  }, []);
-
-
-  // Custom component to draw a circle using Bounds
   const BoundsCircle: FC<{ center: [number, number], radius: number }> = ({ center, radius }) => {
     const map = useMap();
 
-    // Calculate the bounding box for the circle
     const topLeft = map.latLngToLayerPoint(center).subtract([radius, radius]);
     const bottomRight = map.latLngToLayerPoint(center).add([radius, radius]);
     const bounds = L.bounds(topLeft, bottomRight);
 
-    // Create a rectangle overlay
     useEffect(() => {
       const rectangle = L.rectangle(L.latLngBounds(map.layerPointToLatLng(topLeft), map.layerPointToLatLng(bottomRight))).addTo(map);
       return () => {
@@ -149,49 +76,78 @@ const MapComponent: FC = () => {
     return null;
   };
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+    });
+  }, []);
 
-  // Return the JSX for rendering.
+
+  useEffect(() => {
+    const fetchCrimeData = async () => {
+      try {
+        const response = await fetch(`https://maps2.dcgis.dc.gov/dcgis/rest/services/FEEDS/MPD/MapServer/8/query?where=1%3D1&outFields=OFFENSE,WARD,SHIFT&f=json`);
+        const data = await response.json();
+  
+        // Define constants for conversion
+        const metersPerDegreeLatitude = 111319.5;
+        const metersPerDegreeLongitude = 111319.5;
+  
+        // Convert coordinates from projected coordinate system to lat lng
+        const convertedData = data.features.map((crime: any) => ({
+          ...crime,
+          geometry: {
+            // Convert x-coordinate to longitude
+            x: parseFloat((crime.geometry.x / metersPerDegreeLongitude).toFixed(2)),
+            // Convert y-coordinate to latitude
+            y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(2)),
+          },
+        }));
+  
+        setCrimeData(convertedData);
+        console.log(convertedData);
+      } catch (error) {
+        console.error("Error fetching crime data:", error);
+      }
+    };
+  
+    fetchCrimeData(); // Call the function here to execute it when the component mounts
+  }, []);
+  
+
+  const ZoomHandler: FC = () => {
+    const map = useMap();
+
+    useEffect(() => {
+      map.on('zoomend', () => {
+        setLoading(false);
+      });
+    }, [map]);
+
+    return null;
+  };
+
   return (
     <>
-      {/* Show the loader if loading. */}
       {loading && <Loader />}
-      {/* Conditionally render the title overlay. */}
-      {markerData && markerData.coordinates && (
-        <div className="flex items-center justify-center absolute top-3 right-3 z-[100000]">
-          <h1 className="text-3xl font-bold text-black p-2 bg-white rounded-md z-[100000]">{markerData.title}</h1>
-        </div>
-      )}
-      {/* Add the map container. */}
       <MapContainer
-        // Set the tile layer for the map.
-        center={userLocation || [-1.1973489, 36.9301873]}
+        center={[38.9072, -77.0369]}
         zoom={11}
         style={{ height: "100vh", width: "100vw" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {/* Conditionally render the user location marker. */}
-        {userLocation && (
-          <Marker position={userLocation} icon={myIcon}>
-            <Popup>Your Location</Popup>
-          </Marker>
-        )}
-         {userLocation && (
-        <BoundsCircle  center={userLocation} radius={30} />
-      )}
-        {/* Conditionally render the marker. */}
-        {markerData && markerData.coordinates && (
-          <Marker position={markerData.coordinates} icon={myIcon}>
-            <Popup>{markerData.title}</Popup>
-          </Marker>
-        )}
-        {/* Include a circle overlay */}
-        {/* Include the ZoomHandler for zoom events. */}
+        {userLocation && <Marker position={userLocation} icon={myIcon}><Popup>Your Location</Popup></Marker>}
+        {crimeData.map((crime, index) => (
+  <Marker key={index} position={[crime.geometry.y, crime.geometry.x]} icon={crimeIcon}>
+    <Popup>{crime.attributes.OFFENSE}</Popup>
+  </Marker>
+))}
+
+        {userLocation && <BoundsCircle  center={userLocation} radius={radius} />}
         <ZoomHandler />
       </MapContainer>
-      {/* Include the form input, submit button and area for submitted question. */}
     </>
   );
 };
 
-// Export the MapComponent.
 export default MapComponent;

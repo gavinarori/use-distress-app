@@ -30,7 +30,7 @@ export default function PlaygroundPage(): JSX.Element {
         );
         const data = await response.json();
         setCrimeData(data.features);
-        //console.log(data.features)
+        console.log(data.features)
 
         // Perform analysis and set offensesCount, wardOffensesCount, and shiftOffensesCount
         const counts = countOffenses(data.features);
