@@ -98,9 +98,9 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
           ...crime,
           geometry: {
             // Convert x-coordinate to longitude
-            x: parseFloat((crime.geometry.x / metersPerDegreeLongitude).toFixed(2)),
+            x: parseFloat((crime.geometry.x / metersPerDegreeLongitude).toFixed(3)),
             // Convert y-coordinate to latitude
-            y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(2)),
+            y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(3)),
           },
         }));
   
