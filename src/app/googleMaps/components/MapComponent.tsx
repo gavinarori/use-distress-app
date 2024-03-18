@@ -88,12 +88,8 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
       try {
         const response = await fetch(`https://maps2.dcgis.dc.gov/dcgis/rest/services/FEEDS/MPD/MapServer/8/query?where=1%3D1&outFields=OFFENSE,WARD,SHIFT&f=json`);
         const data = await response.json();
-  
-        // Define constants for conversion
         const metersPerDegreeLatitude = 111319.5;
         const metersPerDegreeLongitude = 111319.5;
-  
-        // Convert coordinates from projected coordinate system to lat lng
         const convertedData = data.features.map((crime: any) => ({
           ...crime,
           geometry: {
