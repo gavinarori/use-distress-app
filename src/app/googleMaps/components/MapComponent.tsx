@@ -88,15 +88,15 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
       try {
         const response = await fetch(`https://maps2.dcgis.dc.gov/dcgis/rest/services/FEEDS/MPD/MapServer/8/query?where=1%3D1&outFields=OFFENSE,WARD,SHIFT&f=json`);
         const data = await response.json();
-        const metersPerDegreeLatitude = 111319.5;
-        const metersPerDegreeLongitude = 111319.5;
+        const metersPerDegreeLatitude = 11131.95;
+        const metersPerDegreeLongitude = 11131.95;
         const convertedData = data.features.map((crime: any) => ({
           ...crime,
           geometry: {
             // Convert x-coordinate to longitude
-            x: parseFloat((crime.geometry.x / metersPerDegreeLongitude).toFixed(3)),
+            x: parseFloat((crime.geometry.x / metersPerDegreeLongitude).toFixed(6)),
             // Convert y-coordinate to latitude
-            y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(3)),
+            y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(6)),
           },
         }));
   
@@ -127,7 +127,7 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
     <>
       {loading && <Loader />}
       <MapContainer
-        center={[38.9072, -77.0369]}
+        center={userLocation || [-1.1973489, 36.9301873]}
         zoom={11}
         style={{ height: "100vh", width: "100vw" }}
       >
