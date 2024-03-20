@@ -9,7 +9,7 @@ function RangeSelect({ onRadiusChange }: RangeSelectProps) {
 
     return (
         <div className='mt-5 px-2'>
-            <h2 className='font-bold'>Select Radius (In Meter)</h2>
+            <h2 className='font-bold'>Select Radius </h2>
             <input
                 type='range'
                 className='w-full h-2 bg-[#FF8080] rounded-lg appearance-none cursor-pointer'

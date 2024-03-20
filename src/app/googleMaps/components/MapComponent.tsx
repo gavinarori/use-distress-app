@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, FC } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
@@ -33,7 +33,7 @@ const Loader = () => {
   );
 };
 
-const MapComponent: FC<{ radius: number }> = ({ radius }) => {
+const MapComponent: FC<{ radius: number, category: string | null }> = ({ radius, category }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [crimeData, setCrimeData] = useState<any[]>([]);
@@ -99,18 +99,20 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
             y: parseFloat((crime.geometry.y / metersPerDegreeLatitude).toFixed(6)),
           },
         }));
-  
-        setCrimeData(convertedData);
-        console.log(convertedData);
+
+        // Filter crime data based on selected category
+        const filteredData = category ? convertedData.filter((crime: { attributes: { OFFENSE: string; }; }) => crime.attributes.OFFENSE === category) : convertedData;
+
+        setCrimeData(filteredData);
+        console.log(filteredData);
       } catch (error) {
         console.error("Error fetching crime data:", error);
       }
     };
-  
-    fetchCrimeData(); // Call the function here to execute it when the component mounts
-  }, []);
-  
 
+    fetchCrimeData(); 
+  }, [category]);
+  
   const ZoomHandler: FC = () => {
     const map = useMap();
 
@@ -123,6 +125,14 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
     return null;
   };
 
+  // Filter crime data based on bounds and radius
+  const filteredCrimeData = crimeData.filter((crime) => {
+    if (!userLocation) return false;
+
+    const distance = Math.sqrt(Math.pow(crime.geometry.x - userLocation[1], 2) + Math.pow(crime.geometry.y - userLocation[0], 2));
+    return distance <= radius;
+  });
+
   return (
     <>
       {loading && <Loader />}
@@ -133,11 +143,11 @@ const MapComponent: FC<{ radius: number }> = ({ radius }) => {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {userLocation && <Marker position={userLocation} icon={myIcon}><Popup>Your Location</Popup></Marker>}
-        {crimeData.map((crime, index) => (
-  <Marker key={index} position={[crime.geometry.y, crime.geometry.x]} icon={crimeIcon}>
-    <Popup>{crime.attributes.OFFENSE}</Popup>
-  </Marker>
-))}
+        {filteredCrimeData.map((crime, index) => (
+          <Marker key={index} position={[crime.geometry.y, crime.geometry.x]} icon={crimeIcon}>
+            <Popup>{crime.attributes.OFFENSE}</Popup>
+          </Marker>
+        ))}
 
         {userLocation && <BoundsCircle  center={userLocation} radius={radius} />}
         <ZoomHandler />
