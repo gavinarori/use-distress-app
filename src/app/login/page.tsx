@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-       router.push('/') 
+       router.push('/googleMaps') 
     }
     
 })
@@ -77,7 +77,7 @@ const Login = () => {
           </p>
         </div>
 
-        <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+        <form  className="mt-8 grid grid-cols-6 gap-6">
           <div className="col-span-6">
             <label  className="flex gap-4">
               <input
@@ -107,7 +107,7 @@ const Login = () => {
             }}  className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
         <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
         {signInClicked ? (
-              <LoadingDots color="FF8080"  />
+              <LoadingDots color="#FF8080"  />
             ) : (
               <span>Login with Google</span>
             )}
