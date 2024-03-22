@@ -1,20 +1,20 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import NetlifyWelcomeEmail from '@/emails/welcome-email';
 import { Resend } from 'resend';
+import WelcomeEmail from '@/emails/welcome-email';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend('re_CsZHG2FM_P7pWenE416YTFoj5m1uDVqdT');
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function sendWelcomeEmail(email: any) {
   const { data, error } = await resend.emails.send({
-    from: 'Acme <onboarding@resend.dev>',
-    to: ['delivered@resend.dev'],
-    subject: 'Hello world',
-    react: NetlifyWelcomeEmail({ steps, links, }),
+    from: 'wewearori@gmail.com',
+    to: [email],
+    subject: 'Welcome to our platform!',
+    react: WelcomeEmail({ }),
   });
 
   if (error) {
-    return res.status(400).json(error);
+    console.error('Error sending welcome email:', error);
+    throw new Error('Failed to send welcome email');
   }
 
-  res.status(200).json(data);
-};
+  console.log('Welcome email sent successfully:', data);
+}

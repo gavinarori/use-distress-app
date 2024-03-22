@@ -4,19 +4,19 @@ import { useRouter } from "next/navigation"
 import React, { useState,useEffect } from 'react'
 import Image from 'next/image'
 import LoadingDots from "../icons/loading-dots";
+import {sendWelcomeEmail}  from "@/app/api/send/route";
 
 
 const Login = () => {
-  const session = useSession()
-  const router = useRouter()  
+  const { data: session, status }:any = useSession();
+  const router = useRouter();
   const [signInClicked, setSignInClicked] = useState(false);
 
-  useEffect(() => {
-    if (session?.status === 'authenticated') {
-       router.push('/googleMaps') 
-    }
-    
-})
+  if (status === "authenticated") {
+    router.push("/googleMaps");
+    console.log("The session has been authenticated successfully");
+    sendWelcomeEmail(session.user.email)
+  }
   return (
 <section className="bg-white">
   <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -31,12 +31,12 @@ const Login = () => {
         <a className="flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20" href="#">
           <span className="sr-only">Home</span>
           <Image
-      src="/next.svg"
-      className='h-8 sm:h-10'
-      width={500}
-      height={500}
-      alt="Picture of the author"
-    />
+            src="/next.svg"
+            className='h-8 sm:h-10'
+            width={500}
+            height={500}
+            alt="Picture of the author"
+            />
         </a>
 
         <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
@@ -56,7 +56,7 @@ const Login = () => {
         <div className="relative -mt-16 block lg:hidden">
           <a
             className="inline-flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20"
-            href="#"
+            
           >
             <span className="sr-only">Home</span>
             <Image
@@ -101,10 +101,11 @@ const Login = () => {
           </div>
 
           <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-          <button onClick={() => {
-              setSignInClicked(true);
-              signIn("google");
-            }}  className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
+          <button         onClick={() => {
+          setSignInClicked(true);
+          signIn("google");
+        }}  className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+        disabled={signInClicked}>
         <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
         {signInClicked ? (
               <LoadingDots color="#FF8080"  />
