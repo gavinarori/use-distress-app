@@ -1,37 +1,37 @@
-// route.ts
-import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    handlePost(req, res);
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
+export async function main() {
+  try {
+    await prisma.$connect();
+  } catch (err) {
+    return Error("Database Connection failed");
   }
 }
 
-async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(
+  request: Request,
+) {
   try {
-    const { Latitude, Longitude, accuracy, timestamp, userId } = await req.body;
-
-    const createdLocation = await prisma.location.create({
+    const currentUser = await getCurrentUser();
+    const body = await request.json()
+    const { latitude, longitude, accuracy, timestamp } = body;
+    await main();
+    if (!currentUser?.id) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+    const currentLocation = await prisma.location.create({
       data: {
-        latitude: Latitude,
-        longitude: Longitude,
-        accuracy: accuracy,
-        timestamp: timestamp,
-        user: {
-          connect: { id: userId },
-        },
-      },
+        latitude,
+        longitude,
+        accuracy,
+        timestamp: new Date(timestamp),
+        userId: currentUser.id 
+      }
     });
-
-    const response = res.status(200).json({ success: true, location: createdLocation });
-    console.log(response);
-  } catch (error) {
-    console.error('Error creating location:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  } finally {
-    await prisma.$disconnect();
+    return NextResponse.json({ message: "success", currentLocation }, { status: 201 });
+  } catch (err) {
+    return NextResponse.json({ message: "failed to add location" + err });
   }
 }

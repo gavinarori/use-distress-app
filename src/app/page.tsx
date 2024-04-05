@@ -5,6 +5,7 @@ import { useSession} from 'next-auth/react';
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import { Card, CardContent } from "@/components/ui/card"
+import './loader.css'
 import {
   Carousel,
   CarouselContent,
@@ -22,34 +23,27 @@ function Home() {
   const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
   const { data: session } = useSession();
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   useEffect(() => {
-    
     let watchId: number | undefined;
-   
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log('User Location:', position.coords.latitude, position.coords.longitude);
-          setUserLocation(position);
-        },
-        (GeolocationPositionError) => {
-          setError(GeolocationPositionError.message);
-          if (GeolocationPositionError.code === GeolocationPositionError.PERMISSION_DENIED) {
-            setShowPermissionModal(true);
-          }
-        }
-      );
 
-      watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          setUserLocation(position);
-        },
-        (error) => {
-          setError(error.message);
-        }
-      );
+    const updateLocation = (position: GeolocationPosition) => {
+      setUserLocation(position);
+      sendData();
+    };
+
+    const errorLocation = (error: GeolocationPositionError) => {
+      setError(error.message);
+      if (error.code === GeolocationPositionError.PERMISSION_DENIED) {
+        setShowPermissionModal(true);
+      }
+    };
+
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(updateLocation, errorLocation);
+
+      watchId = navigator.geolocation.watchPosition(updateLocation, errorLocation);
     } else {
       setError('Geolocation is not available in this browser.');
     }
@@ -62,34 +56,19 @@ function Home() {
     };
   }, []);
 
-  const handlePermissionButtonClick = () => {
-    setShowPermissionModal(false);
-  };
-  
-  const handleClick = () => {
-    setShowSVG(!showSVG);
-    
-  };
-
   const sendData = async () => {
     try {
-      const response = await fetch('/api/signal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Latitude: userLocation?.coords?.latitude,
-          Longitude: userLocation?.coords?.longitude,
-          accuracy: userLocation?.coords?.accuracy,
-          timestamp: userLocation?.timestamp,
-          userId: session?.user,
-        }),
+      const response = await axios.post('/api/signal', {
+        latitude: userLocation?.coords.latitude,
+        longitude: userLocation?.coords.longitude,
+        accuracy: userLocation?.coords.accuracy,
+        timestamp: userLocation?.timestamp,
       });
+
+      
   
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Response:', data);
+      if (response.status === 200) {
+        console.log('Signal sent successfully');
         toast({
           description: 'Signal sent successfully',
         });
@@ -104,21 +83,26 @@ function Home() {
       console.error(error);
       toast({
         variant: 'destructive',
-        description: 'Failed to send signal:',
+        description: 'Failed to send signal',
       });
     }
   };
-  
+
+  const handlePermissionButtonClick = () => {
+    setShowPermissionModal(false);
+  };
+
+  const handleClick = () => {
+    setShowSVG(!showSVG);
+    //sendData();
+  };
+
   const closeModal = () => {
     const modal = document.getElementById('my-modal');
     if (modal) {
       modal.classList.add('hidden');
     }
   };
-
-
-
-
 
   return (
       <main className="flex min-h-screen flex-col items-center   justify-between p-24">
@@ -162,7 +146,7 @@ function Home() {
          </div>
         )}
           <div className=" dark:bg-gray-800 flex justify-center items-center w-screen h-screen p-5 ">
-          {showSVG ? (
+          {showSVG  ? (
         <svg
           className='cursor-pointer'
           xmlns="http://www.w3.org/2000/svg"
@@ -188,14 +172,20 @@ function Home() {
     </g>
         </svg>
       ) : (
-        <iframe
-          src="https://lottie.host/embed/427c5f4f-4e37-491a-8085-d71651fa614c/ixlmjMRVH0.json"
-          width="512"
-          height="512"
-          frameBorder="0"
-          allowFullScreen
-          onClick={handleClick}
-        />
+        <div className="socket">
+        <div className="gel center-gel">
+            <div className="hex-brick h1"></div>
+            <div className="hex-brick h2"></div>
+            <div className="hex-brick h3"></div>
+        </div>
+        {[...Array(37)].map((_, index) => (
+            <div key={index} className={`gel c${index + 1} r${index < 6 ? 1 : (index < 15 ? 2 : 3)}`}>
+                <div className="hex-brick h1"></div>
+                <div className="hex-brick h2"></div>
+                <div className="hex-brick h3"></div>
+            </div>
+        ))}
+    </div>
       )}
 </div>
 <Carousel className="w-full max-w-xs">

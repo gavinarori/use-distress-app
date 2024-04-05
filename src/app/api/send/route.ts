@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import WelcomeEmail from '@/emails/welcome-email';
 
-const resend = new Resend('re_PtTs8xba_15Hn1bA1KStA6QvN7bkZBHUP');
+const resend = new Resend('');
 
 export async function sendWelcomeEmail(email: any) {
   const { data, error } = await resend.emails.send({
