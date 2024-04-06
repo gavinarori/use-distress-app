@@ -13,7 +13,7 @@ const Login = () => {
   const [signInClicked, setSignInClicked] = useState(false);
 
   if (status === "authenticated") {
-    router.push("/googleMaps");
+    router.push("/");
     console.log("The session has been authenticated successfully");
     sendWelcomeEmail(session.user.email)
   }
