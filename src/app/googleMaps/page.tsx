@@ -1,6 +1,6 @@
 "use client"
 import dynamic from "next/dynamic";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CategoryList from '@/app/googleMaps/components/CategoryList';
 import RangeSelect from '@/app/googleMaps/components/RangeSelect';
 import Search from "./components/search";
@@ -9,12 +9,28 @@ const DynamicMapComponent = dynamic(() => import("./components/MapComponent"), {
 
 const MyPage = () => {
   const [radius, setRadius] = useState(60);
-  const [category, setCategory] = useState<string | null>(null); // Initialize category state with null
+  const [category, setCategory] = useState<string | null>(null);
+  const [locations, setLocations] = useState([]);
 
+
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch("/api/signal/get");
+        const data = await response.json();
+        setLocations(data);
+        console.log(data) 
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
   return (
     <div className='grid grid-cols-1 md:grid-cols-4'>
       <div className='p-3 '>
-        {/* Pass the onCategoryChange callback to CategoryList */}
         <CategoryList onCategoryChange={(value) => setCategory(value)} />
         <RangeSelect onRadiusChange={(value) => setRadius(value)} />
         <div className="mt-6">
@@ -22,8 +38,7 @@ const MyPage = () => {
         </div>
       </div>
       <div className='col-span-3'>
-        {/* Pass the selected category and radius to MapComponent */}
-        <DynamicMapComponent radius={radius} category={category} />
+        <DynamicMapComponent  radius={radius} category={category} />
       </div>
     </div>
   );
