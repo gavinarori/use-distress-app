@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import React, { useState,useEffect } from 'react'
 import Image from 'next/image'
 import LoadingDots from "../icons/loading-dots";
-import {sendWelcomeEmail}  from "@/app/api/send/route";
+
 
 
 const Login = () => {

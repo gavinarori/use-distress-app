@@ -1,170 +1,89 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Body,
-  Button,
-  Column,
   Container,
   Head,
   Heading,
+  Hr,
   Html,
   Img,
   Link,
   Preview,
-  Row,
   Section,
+  Tailwind,
   Text,
 } from "@react-email/components";
-import { Tailwind } from "@react-email/tailwind";
-import * as React from "react";
 
-interface WelcomeEmailProps {
-  steps?: {
-    id: number;
-    Description: React.ReactNode;
-  }[];
-  links?: string[];
-}
+import Footer from "./components/footer";
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
-
-const PropDefaults: WelcomeEmailProps = {
-  steps: [
-    {
-      id: 1,
-      Description: (
-        <li className="mb-20" key={1}>
-          <strong>Deploy your first project.</strong>{" "}
-          <Link>Connect to Git, choose a template</Link>, or manually deploy a
-          project you've been working on locally.
-        </li>
-      ),
-    },
-    {
-      id: 2,
-      Description: (
-        <li className="mb-20" key={2}>
-          <strong>Check your deploy logs.</strong> Find out what's included in
-          your build and watch for errors or failed deploys.{" "}
-          <Link>Learn how to read your deploy logs</Link>.
-        </li>
-      ),
-    },
-    {
-      id: 3,
-      Description: (
-        <li className="mb-20" key={3}>
-          <strong>Choose an integration.</strong> Quickly discover, connect, and
-          configure the right tools for your project with 150+ integrations to
-          choose from. <Link>Explore the Integrations Hub</Link>.
-        </li>
-      ),
-    },
-    {
-      id: 4,
-      Description: (
-        <li className="mb-20" key={4}>
-          <strong>Set up a custom domain.</strong> You can register a new domain
-          and buy it through Netlify or assign a domain you already own to your
-          site. <Link>Add a custom domain</Link>.
-        </li>
-      ),
-    },
-  ],
-  links: ["Visit the forums", "Read the docs", "Contact an expert"],
-};
-
-const WelcomeEmail = ({
-  steps = PropDefaults.steps,
-  links = PropDefaults.links,
-}: WelcomeEmailProps): React.ReactElement => {
+export default function WelcomeEmail({
+  name,
+  email 
+}: {
+  name: string | null;
+  email: string;
+}) {
   return (
     <Html>
       <Head />
-      <Preview>Netlify Welcome</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                brand: "#2250f4",
-                offwhite: "#fafbfb",
-              },
-              spacing: {
-                0: "0px",
-                20: "20px",
-                45: "45px",
-              },
-            },
-          },
-        }}
-      >
-        <Body className="bg-offwhite text-base font-sans">
-          <Img
-            src={`${baseUrl}/static/netlify-logo.png`}
-            width="184"
-            height="75"
-            alt="Netlify"
-            className="mx-auto my-20"
-          />
-          <Container className="bg-white p-45">
-            <Heading className="text-center my-0 leading-8">
-              Welcome to Netlify
+      <Preview>Welcome to Projectx </Preview>
+      <Tailwind>
+        <Body className="m-auto bg-white font-sans">
+          <Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
+            <Section className="mt-8"></Section>
+            <Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
+              Welcome to Projectx
             </Heading>
 
-            <Section>
-              <Row>
-                <Text className="text-base">
-                  Congratulations! You're joining over 3 million developers
-                  around the world who use Netlify to build and ship sites,
-                  stores, and apps.
-                </Text>
-
-                <Text className="text-base">Here's how to get started:</Text>
-              </Row>
-            </Section>
-
-            <ul>{steps?.map(({ Description }) => Description)}</ul>
-
-            <Section className="text-center">
-              <Button className="bg-brand text-white rounded-lg py-3 px-[18px]">
-                Go to your dashboard
-              </Button>
-            </Section>
-
-            <Section className="mt-45">
-              <Row>
-                {links?.map((link) => (
-                  <Column key={link}>
-                    <Link className="text-black underline font-bold">
-                      {link}
-                    </Link>{" "}
-                    <span className="text-green-500">→</span>
-                  </Column>
-                ))}
-              </Row>
-            </Section>
-          </Container>
-
-          <Container className="mt-20">
-            <Section>
-              <Row>
-                <Column className="text-right px-20">
-                  <Link>Unsubscribe</Link>
-                </Column>
-                <Column className="text-left">
-                  <Link>Manage Preferences</Link>
-                </Column>
-              </Row>
-            </Section>
-            <Text className="text-center text-gray-400 mb-45">
-              Netlify, 44 Montgomery Street, Suite 300 San Francisco, CA
+            <Text className="text-sm leading-6 text-black">
+              Thank you for joining us{name && `, ${name}`}!
             </Text>
+            <Text className="text-sm leading-6 text-black">
+              I'm Christer, the creator of Projectx - Excited to have you on
+              board!
+            </Text>
+            <Text className="text-sm leading-6 text-black">
+              Here's what you can start doing:
+            </Text>
+            <Text className="ml-1 text-sm leading-4 text-black">
+              ◆ Generate your first{" "}
+              <Link
+                href="https://Projectx.com/dashboard"
+                className="font-medium text-blue-600 no-underline"
+              >
+                AI-powered property listing
+              </Link>
+            </Text>
+            <Text className="ml-1 text-sm leading-4 text-black">
+              ◆ Manage your{" "}
+              <Link
+                href="https://Projectx.com/dashboard"
+                className="font-medium text-blue-600 no-underline"
+              >
+                property portfolio
+              </Link>
+            </Text>
+            <Text className="ml-1 text-sm leading-4 text-black">
+              ◆ Connect with us on{" "}
+              <Link
+                href="https://discord.gg/wadg6fNX"
+                className="font-medium text-blue-600 no-underline"
+              >
+                Twitter
+              </Link>
+            </Text>
+            <Text className="text-sm leading-6 text-black">
+              If you have any questions or feedback, feel free to reach out.
+              We're here to help!
+            </Text>
+            <Text className="text-sm font-light leading-6 text-gray-400">
+              Christer from Projectx
+            </Text>
+
+            <Footer email={email} marketing />
           </Container>
         </Body>
       </Tailwind>
     </Html>
   );
-};
-
-export default WelcomeEmail;
+}

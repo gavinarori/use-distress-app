@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "email dev --port 3000"
+    "email": "email dev ",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@mantine/core": "^7.6.1",
