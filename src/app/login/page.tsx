@@ -15,7 +15,6 @@ const Login = () => {
   if (status === "authenticated") {
     router.push("/");
     console.log("The session has been authenticated successfully");
-    sendWelcomeEmail(session.user.email)
   }
   return (
 <section className="bg-white">
