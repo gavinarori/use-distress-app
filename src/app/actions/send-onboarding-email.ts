@@ -7,7 +7,7 @@ async function sendOnboardingEmail(email: string, name: string) {
     await resend.emails.send({
       from: "arorigavin@gmail.com",
       to: email,
-      subject: "Unlock the Future of Real Estate with Projectx!",
+      subject: "Unlock the Future fast responses with Distress!",
       react: WelcomeEmail({
         name: name || "Valued User",
         email: email,
