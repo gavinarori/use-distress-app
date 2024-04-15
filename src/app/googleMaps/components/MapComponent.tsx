@@ -33,7 +33,7 @@ const Loader = () => {
   );
 };
 
-const MapComponent: FC<{ radius: number, category: string | null }> = ({ radius, category }) => {
+const MapComponent: FC<{ radius: number, category: string | null , locations:any}> = ({ radius, category ,locations }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [crimeData, setCrimeData] = useState<any[]>([]);
@@ -52,6 +52,15 @@ const MapComponent: FC<{ radius: number, category: string | null }> = ({ radius,
 
   const crimeIcon = L.icon({
     iconUrl: '/alarm.png',
+    iconSize: [38, 38],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+  });
+
+  const crimes = L.icon({
+    iconUrl: 'https://lottie.host/embed/d1626c86-8361-471a-88a9-7baaff52fa06/Hrom5D9Mo4.json',
     iconSize: [38, 38],
     iconAnchor: [22, 94],
     popupAnchor: [-3, -76],
@@ -148,6 +157,11 @@ const MapComponent: FC<{ radius: number, category: string | null }> = ({ radius,
             <Popup>{crime.attributes.OFFENSE}</Popup>
           </Marker>
         ))}
+       {Array.isArray(locations) && locations.map((location, index) => (
+  <Marker key={index} position={[location.latitude, location.longitude]} icon={crimes}>
+    <Popup>{location.title}</Popup>
+  </Marker>
+))}
 
         {userLocation && <BoundsCircle  center={userLocation} radius={radius} />}
         <ZoomHandler />
