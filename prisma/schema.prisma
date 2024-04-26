@@ -61,13 +61,18 @@ model VerificationToken {
 }
 
 model Location {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  latitude   Float
-  longitude  Float
-  accuracy   Float
-  timestamp  DateTime
-  status     Boolean @default(false)
-  date       DateTime @default(now())
-  userId     String @db.ObjectId
-  user      User   @relation(fields: [userId], references: [id])
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  latitude        Float
+  longitude       Float
+  accuracy        Float
+  timestamp       DateTime
+  confirmSend     Boolean  @default(false)
+  isChecked       Boolean  @default(false)
+  isCanceled      Boolean  @default(false)
+  date            DateTime @default(now())
+  userId          String @db.ObjectId
+  user            User   @relation(fields: [userId], references: [id])
 }
+
+
+

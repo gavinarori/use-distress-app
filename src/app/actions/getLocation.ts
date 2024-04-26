@@ -1,24 +1,25 @@
 import { prisma } from '@/lib/prisma';
 import getSession from "./getSession";
 
-const getLocation  = async () => {
-    try{
-        const userSession = await getSession()
-        if (!userSession?.user.email) {
-            return null
+const getLocation = async () => {
+    try {
+        const userSession = await getSession();
+
+        if (!userSession || !userSession.user || !userSession.user.id) {
+            return null;
         }
 
-        const currentLocation = await prisma.location.findUnique({
-          where: { id: userSession.user.id },});
+        const userId = userSession.user.id;
+        const lastLocation = await prisma.location.findFirst({
+            where: { userId },
+            orderBy: { timestamp: 'desc' }, 
+        });
 
-          if (!currentLocation) {
-            return null;
-          }
-
-          return  currentLocation;
-    }catch (error: any) {
+        return lastLocation;
+    } catch (error) {
+        console.error("Error fetching location:", error);
         return null;
-      }
-        };
+    }
+};
 
 export default getLocation;

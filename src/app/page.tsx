@@ -1,15 +1,14 @@
 "use client"
 import axios from 'axios';
-import { useEffect,  useState } from 'react';
-import { useSession} from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import './loader.css'
 import Sidebar from '@/components/sidebar/page';
 import { Navbar } from '@/components/navbar/page';
 import Cards from '@/components/cards/page';
-
-
+import { useSignInModal } from '@/components/modals/cancel';
 
 function Home() {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
@@ -17,17 +16,15 @@ function Home() {
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
-  const { data: session, status }:any = useSession();
+  const { data: session, status }: any = useSession();
   const { toast } = useToast();
-
- 
+  const { SignInModal, setShowSignInModal } = useSignInModal();
+  const [isSignalSent, setIsSignalSent] = useState(false);
 
   useEffect(() => {
-
-    if (!session){
+    if (!session) {
       router.push("/login")
     }
-
 
     let watchId: number | undefined;
 
@@ -58,6 +55,12 @@ function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isSignalSent) {
+      setShowSignInModal(true);
+    }
+  }, [isSignalSent, setShowSignInModal]);
+
   const sendData = async () => {
     try {
       const response = await axios.post('/api/signal', {
@@ -67,10 +70,9 @@ function Home() {
         timestamp: userLocation?.timestamp,
       });
 
-      
-  
       if (response.status === 201) {
         console.log('Signal sent successfully');
+        setIsSignalSent(true);
         toast({
           description: 'Signal sent successfully',
         });
@@ -95,7 +97,6 @@ function Home() {
   };
 
   const handleSVGClick = () => {
-    
     sendData();
   };
 
@@ -107,11 +108,13 @@ function Home() {
   };
 
   return (
-      <main className='' >
-       <Sidebar/>
-       <Navbar/>
-       <Cards onSVGClick={handleSVGClick}/>
-      </main>
+    <main className=''>
+      <Sidebar />
+      <Navbar />
+      <Cards onSVGClick={handleSVGClick} />
+      <SignInModal />
+    </main>
   )
-      }
-      export default Home
+}
+
+export default Home;

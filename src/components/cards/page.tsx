@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useSignInModal } from '@/components/modals/cancel';
+
 
 interface Location {
   id: string;
@@ -31,7 +31,7 @@ function Cards({ onSVGClick }:any) {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showSVG, setShowSVG] = useState(true);
   const [locations, setLocations] = useState<Location[]>([]);
-  const {SignInModal, setShowSignInModal} = useSignInModal();
+ 
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,7 +57,7 @@ function Cards({ onSVGClick }:any) {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch("/api/signal/get");
+        const response = await fetch("/api/signal/get",{ cache: 'force-cache' } );
         const data = await response.json();
         // Check if the data object contains the getCurrentLocation key
         if (data.hasOwnProperty('getCurrentLocation')) {
@@ -80,7 +80,6 @@ function Cards({ onSVGClick }:any) {
   
     return (
         <div className="  flex justify-center item-center lg:ml-[290px]  pt-6 ">
-          <SignInModal />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="md:col-span-2 lg:col-span-1">
             <div className="h-full py-8 px-6 space-y-6 rounded-xl border border-gray-200 bg-white">
@@ -173,7 +172,7 @@ function Cards({ onSVGClick }:any) {
           </div>
           <div>
                 <div className="h-full py-6 px-6 rounded-xl border border-gray-200 bg-white">
-                    <h5 onClick={() => setShowSignInModal(true)} className="text-xl text-gray-700">Downloads</h5>
+                    <h5 className="text-xl text-gray-700">Downloads</h5>
                     <div className="my-8">
                         <h1 className="text-5xl font-bold text-gray-800">64,5%</h1>
                         <span className="text-gray-500">Compared to last week $13,988</span>
