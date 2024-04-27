@@ -7,18 +7,20 @@ export const GET = async (req: Request, res: NextResponse) => {
   try {
     await main();
     const currentUser = await getCurrentUser();
-    if(!currentUser?.id){
-        return new NextResponse('Unauthorized', { status: 401 });
+    if (!currentUser?.id) {
+      return  NextResponse.json('Unauthorized', { status: 401 });
     }
 
-    const getCurrentLocation = await prisma.location.findMany()
-    if (!getCurrentLocation){
-        return NextResponse.json({ message: "Location not found", }, { status: 404 })
+    const getCurrentLocation = await prisma.location.findMany();
+    if (getCurrentLocation.length === 0) {
+      return  NextResponse.json({ message: "Location not found" }, { status: 404 });
     }
-    return NextResponse.json({ message: "success", getCurrentLocation }, { status: 201 });
+
+    const lastLocation = getCurrentLocation[getCurrentLocation.length - 1];
+    return  NextResponse.json({ message: "success", lastLocation }, { status: 200 });
 
   } catch (err) {
-    return NextResponse.json({ message: "Error", error: err }, { status: 500 });
+    return  NextResponse.json({ message: "Error", error: err }, { status: 500 });
   } finally {
     await prisma.$disconnect();
   }

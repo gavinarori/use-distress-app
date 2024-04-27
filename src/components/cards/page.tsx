@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts"
 
 
 interface Location {
@@ -25,6 +25,36 @@ interface Location {
   accuracy: number;
   timestamp: string;
 }
+const data = [
+  {
+    average: 400,
+    today: 240,
+  },
+  {
+    average: 300,
+    today: 139,
+  },
+  {
+    average: 200,
+    today: 980,
+  },
+  {
+    average: 278,
+    today: 390,
+  },
+  {
+    average: 189,
+    today: 480,
+  },
+  {
+    average: 239,
+    today: 380,
+  },
+  {
+    average: 349,
+    today: 430,
+  },
+]
 
 function Cards({ onSVGClick }:any) {
   const [currentDate, setCurrentDate] = useState<string>('');
@@ -57,8 +87,9 @@ function Cards({ onSVGClick }:any) {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch("/api/signal/get",{ cache: 'force-cache' } );
+        const response = await fetch("/api/many");
         const data = await response.json();
+        console.log(data)
         // Check if the data object contains the getCurrentLocation key
         if (data.hasOwnProperty('getCurrentLocation')) {
           const fetchedLocations = data.getCurrentLocation;
@@ -235,36 +266,93 @@ function Cards({ onSVGClick }:any) {
                     </table>   
                 </div>
             </div>
+          
           <div>
-            <div className="lg:h-auto py-8 px-6 w-auto flex justify-center   text-gray-600 rounded-xl border border-gray-200 bg-white">
-            <div className="">
-      <div className="w-56 h-56 bg-neutral-900 shadow-inner shadow-gray-50 flex justify-center items-center rounded-3xl">
-        <div className="flex flex-col items-center justify-center rounded-2xl bg-neutral-900 shadow-inner shadow-gray-50 w-52 h-52">
-          <div className="before:absolute before:w-12 before:h-12 before:bg-orange-800 before:rounded-full before:blur-xl before:top-16 relative flex flex-col justify-around items-center w-44 h-40 bg-neutral-900 text-gray-50">
-            <span className="">{currentDate}</span>
-            <span className="z-10 flex items-center text-6xl text-amber-600 [text-shadow:_2px_2px_#fff,_1px_2px_#fff]">{currentTime}</span>
-            <div className="text-gray-50 w-48 flex flex-row justify-evenly">
-              <span className="text-xs font-bold">89</span>
-              <div className="flex flex-row items-center">
-                <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" height="100" className="w-5 h-5 fill-red-500 animate-bounce">
-                  <path fillRule="evenodd" d="M23,27.6a15.8,15.8,0,0,1,22.4,0L50,32.2l4.6-4.6A15.8,15.8,0,0,1,77,50L50,77,23,50A15.8,15.8,0,0,1,23,27.6Z" className="" />
-                </svg>
-                <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" height="100" className="w-5 h-5 fill-current">
-                  <path d="M80.2,40.7l-1.1-2-.2-.3.3-.3c2.2-14.7-21.3-25.6-20.7-21S57,38.1,45.4,31.8c-9.3-5.1-12.9,12.1-22.8,33.7C16.2,79.4,20.8,82.3,27,81l.3.4L29,83.3a1.4,1.4,0,0,0,1.8.5l.9-.3a1.6,1.6,0,0,0,1.1-1.9l-.5-2.5a38.2,38.2,0,0,0,4.5-2.7L38.6,78a1.8,1.8,0,0,0,2.4-.1l1.2-1.1a1.9,1.9,0,0,0,.4-1.9l-1-2.5L45.5,69l1.7,1.6a1.8,1.8,0,0,0,2.4-.1l.9-1a1.7,1.7,0,0,0,.4-1.8L50,65c5.6-5,11.9-10.9,17.3-15.8l.4.2,1.9,1.1a1.6,1.6,0,0,0,2.1-.2l.8-.8a1.6,1.6,0,0,0,.3-2.1l-1.3-2.1,3.2-3.1,2.2,1.5a1.8,1.8,0,0,0,2.2-.1l.8-.8A1.7,1.7,0,0,0,80.2,40.7Z" className="svg-fill-primary" />
-                </svg>
-                <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" height="100" className="w-5 h-5 fill-current">
-                  <path fillRule="evenodd" d="M59.5,20.5a3.9,3.9,0,0,0-2.5-2,4.3,4.3,0,0,0-3.3.5,11.9,11.9,0,0,0-3.2,3.5,26,26,0,0,0-2.3,4.4,76.2,76.2,0,0,0-3.3,10.8,120.4,120.4,0,0,0-2.4,14.2,11.4,11.4,0,0,1-3.8-4.2c-1.3-2.7-1.5-6.1-1.5-10.5a4,4,0,0,0-2.5-3.7,3.8,3.8,0,0,0-4.3.9,27.7,27.7,0,1,0,39.2,0,62.4,62.4,0,0,1-5.3-5.8A42.9,42.9,0,0,1,59.5,20.5ZM58.4,70.3a11.9,11.9,0,0,1-20.3-8.4s3.5,2,9.9,2c0-4,2-15.9,5-17.9a21.7,21.7,0,0,0,5.4,7.5,11.8,11.8,0,0,1,3.5,8.4A12,12,0,0,1,58.4,70.3Z" className="svg-fill-primary" />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <span className="text-gray-700 text-lg font-light">fitbit</span>
+          <Card>
+      <CardHeader>
+        <CardTitle>Exercise Minutes</CardTitle>
+        <CardDescription>
+          Your exercise minutes are ahead of where you normally are.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="pb-4">
+        <div className="h-[200px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 10,
+                left: 10,
+                bottom: 0,
+              }}
+            >
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background p-2 shadow-sm">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="flex flex-col">
+                            <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              Average
+                            </span>
+                            <span className="font-bold text-muted-foreground">
+                              {payload[0].value}
+                            </span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              Today
+                            </span>
+                            <span className="font-bold">
+                              {payload[1].value}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                }}
+              />
+              <Line
+                type="monotone"
+                strokeWidth={2}
+                dataKey="average"
+                activeDot={{
+                  r: 6,
+                  style: { fill: "rgb(225 29 72)", opacity: 0.25 },
+                }}
+                style={
+                  {
+                    stroke: "rgb(225 29 72)",
+                    opacity: 0.25,
+                  } as React.CSSProperties
+                }
+              />
+              <Line
+                type="monotone"
+                dataKey="today"
+                strokeWidth={2}
+                activeDot={{
+                  r: 8,
+                  style: { fill: "rgb(225 29 72)" },
+                }}
+                style={
+                  {
+                    stroke: "rgb(225 29 72)",
+                  } as React.CSSProperties
+                }
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
-      </div>
-    </div>
-    
-            </div>
+      </CardContent>
+    </Card>
           </div>
+
           <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
   <CardHeader className="flex flex-row items-center">
     <div className="grid gap-2">

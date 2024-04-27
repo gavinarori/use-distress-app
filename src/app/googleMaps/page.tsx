@@ -21,23 +21,28 @@ const MyPage = () => {
           if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
           }
-          const data = await response.json();
-          
-          if (!data || !Array.isArray(data.getCurrentLocation)) {
-            throw new Error("Invalid data format: getCurrentLocation array not found");
+          const { message, lastLocation } = await response.json();
+      
+          if (message !== "success" || !lastLocation) {
+            throw new Error("Invalid data format: 'success' message not found or lastLocation not found");
           }
-          
-          const locationsArray = data.getCurrentLocation.map((location: { latitude: any; longitude: any; }) => ({
-            latitude: location.latitude,
-            longitude: location.longitude,
-            title: "Location" 
-          }));
-          setLocations(locationsArray);
-          console.log("Locations:", locationsArray);
+      
+          // Format the last location data as needed
+          const locationData = {
+            latitude: lastLocation.latitude,
+            longitude: lastLocation.longitude,
+            isCanceled: lastLocation.isCanceled || false,
+            isChecked: lastLocation.isChecked || false,
+            title: "Location"
+          };
+      
+          setLocations([locationData]);
+          console.log("Last Location:", locationData);
         } catch (error) {
           console.error("Error fetching locations:", error);
         }
       };
+      
     
       fetchLocations();
     }, []);

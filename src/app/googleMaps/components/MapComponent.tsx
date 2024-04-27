@@ -4,6 +4,7 @@ import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
+import Lottie from 'react-lottie';
 
 interface MarkerData {
   coordinates: [number, number];
@@ -33,6 +34,18 @@ const Loader = () => {
   );
 };
 
+function generateLottiePlayerHTML(): string {
+  return `<dotlottie-player 
+            src="https://lottie.host/d1626c86-8361-471a-88a9-7baaff52fa06/Hrom5D9Mo4.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 38px; height: 38px;" 
+            loop 
+            autoplay
+          ></dotlottie-player>`;
+}
+
+
 const MapComponent: FC<{ radius: number, category: string | null , locations:any}> = ({ radius, category ,locations }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
@@ -59,14 +72,14 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
     shadowAnchor: [22, 94]
   });
 
-  const crimes = L.icon({
-    iconUrl: 'https://lottie.host/embed/d1626c86-8361-471a-88a9-7baaff52fa06/Hrom5D9Mo4.json',
-    iconSize: [38, 38],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
+
+  const DotLottieIcon = L.divIcon({
+    className: 'dotlottie-icon',
+    html: generateLottiePlayerHTML(),
+    iconSize: [52, 38],
+    iconAnchor: [19, 19], // Adjust the icon anchor as needed
   });
+  
 
   const BoundsCircle: FC<{ center: [number, number], radius: number }> = ({ center, radius }) => {
     const map = useMap();
@@ -151,18 +164,21 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
         style={{ height: "100vh", width: "100vw" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {userLocation && <Marker position={userLocation} icon={myIcon}><Popup>Your Location</Popup></Marker>}
+        
         {filteredCrimeData.map((crime, index) => (
           <Marker key={index} position={[crime.geometry.y, crime.geometry.x]} icon={crimeIcon}>
             <Popup>{crime.attributes.OFFENSE}</Popup>
           </Marker>
         ))}
        {Array.isArray(locations) && locations.map((location, index) => (
-  <Marker key={index} position={[location.latitude, location.longitude]} icon={crimes}>
+  <Marker
+    key={index}
+    position={[location.latitude, location.longitude]}
+    icon={location.isCanceled ? myIcon : crimeIcon}
+  >
     <Popup>{location.title}</Popup>
   </Marker>
 ))}
-
         {userLocation && <BoundsCircle  center={userLocation} radius={radius} />}
         <ZoomHandler />
       </MapContainer>
