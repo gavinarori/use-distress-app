@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "email": "email dev ",
+    "cy:open": "cypress open",
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "lucide-react": "^0.303.0",
     "next": "^14.1.1-canary.6",
     "nodemailer": "^6.9.13",
+    "prisma": "^5.13.0",
     "proj4": "^2.10.0",
     "react": "^18",
     "react-dom": "^18",
@@ -55,6 +57,7 @@
     "@types/react-dom": "^18",
     "@types/react-lottie": "^1.2.10",
     "autoprefixer": "^10.4.19",
+    "cypress": "^13.8.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
