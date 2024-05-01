@@ -6,10 +6,62 @@ import {
   SetStateAction,
   useCallback,
   useMemo,
+  useEffect,
+  useRef,
 } from "react";
 import Image from "next/image";
 import LoadingDots from "@/app/icons/loading-dots";
+import { lyrics } from "../../../assets/lyrics.json";
+import clsx from "clsx";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+  } from "@/components/ui/drawer"
 
+  function useDummyAudio(length: number) {
+    const [timestamp, setTimestamp] = useState(0);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setTimestamp((prev) => {
+          if (prev >= length) {
+            clearInterval(interval);
+            return length;
+          }
+          return prev + 500;
+        });
+      }, 500);
+  
+      return () => clearInterval(interval);
+    }, [length]);
+  
+    return { timestamp };
+  }
+
+  function useCurrentLine(timestamp: number) {
+    type Line = (typeof lyrics.lines)[number];
+    const [currentLine, setCurrentLine] = useState<Line | null>(null);
+  
+    useEffect(() => {
+      const nextLineIndex = lyrics.lines.findIndex(
+        (line) => Number(line.startTimeMs) > timestamp
+      );
+  
+      if (nextLineIndex === 0) {
+        setCurrentLine(lyrics.lines[0]);
+      }
+  
+      setCurrentLine(lyrics.lines[nextLineIndex - 1]);
+    }, [timestamp]);
+  
+    return { currentLine };
+  }
 
 
 const RecommendationModal = ({
@@ -20,6 +72,19 @@ const RecommendationModal = ({
   setShowRecommendationModal: Dispatch<SetStateAction<boolean>>;
 }) => {
     const [RecommendationClicked, setRecommendationClicked] = useState(false);
+    const currentLineRef = useRef<HTMLParagraphElement | null>(null);
+    const { timestamp } = useDummyAudio(178000);
+    const { currentLine } = useCurrentLine(timestamp);
+    
+  
+    useEffect(() => {
+      if (currentLineRef.current) {
+        currentLineRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, [currentLine]);
   
   return (
     <Modal showModal={showRecommendationModal} setShowModal={setShowRecommendationModal}>
@@ -42,10 +107,11 @@ const RecommendationModal = ({
             Are you a first aid trainer? Do you know someone who is? We need your help to add them to our directory! Please fill
             Get a free first aid course with our app! Just click the button below to get started
           </p>
-        </div>
-
-        <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
-          <button
+        </div>  
+          <Drawer>
+      <DrawerTrigger asChild>
+      <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
+      <button
             disabled={RecommendationClicked}
             className={`${
                 RecommendationClicked
@@ -65,7 +131,44 @@ const RecommendationModal = ({
               </>
             )}
           </button>
+      </div>
+      </DrawerTrigger>
+      <DrawerContent className="max-h-[70vh]">
+        <div className="mx-auto w-full max-w-sm">
+          <DrawerHeader>
+            <DrawerTitle>Move Goal</DrawerTitle>
+            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          </DrawerHeader>
+          <main className="gap-5 text-left">
+      {lyrics.lines.map((line) => {
+        const isCurrentLine = currentLine?.startTimeMs === line.startTimeMs;
+        const isPastLine = Number(line.startTimeMs) < timestamp;
+
+        return (
+          <p
+            ref={isCurrentLine ? currentLineRef : null}
+            className={clsx(
+              `text-2xl font-bold`,
+              isCurrentLine
+                ? "text-white"
+                : isPastLine
+                ? "text-gray-400"
+                : "text-black"
+            )}
+            key={line.startTimeMs}
+          >
+            {line.words}
+          </p>
+        );
+      })}
+    </main>
+          <DrawerFooter>
+            <DrawerClose asChild>
+            </DrawerClose>
+          </DrawerFooter>
         </div>
+      </DrawerContent>
+    </Drawer>
       </div>
     </Modal>
   );

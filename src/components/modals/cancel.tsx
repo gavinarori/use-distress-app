@@ -7,7 +7,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import axios from 'axios';
+import { useRecommendationModal } from "./recommand";
 import { useToast } from "@/components/ui/use-toast"
 
 const SignInModal = ({
@@ -18,6 +18,7 @@ const SignInModal = ({
   setShowSignInModal: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { toast } = useToast();
+  const { RecommendationModal, setShowRecommendationModal } = useRecommendationModal();
   
   const cancelLocation = async () => {
     try {
@@ -51,6 +52,7 @@ const SignInModal = ({
   return (
     <Modal showModal={showSignInModal} setShowModal={setShowSignInModal}>
     <div className=" overflow-hidden md:max-w-md md:rounded-2xl md:border md:border-gray-100 md:shadow-xl">
+      <RecommendationModal/>
          <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -70,10 +72,10 @@ const SignInModal = ({
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-2">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    
+                    className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    onClick={() => setShowRecommendationModal(true)}
                   >
-                    Deactivate
+                    Continue
                   </button>
                   <button
                     type="button"
