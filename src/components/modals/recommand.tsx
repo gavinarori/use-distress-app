@@ -53,10 +53,13 @@ import {
         (line) => Number(line.startTimeMs) > timestamp
       );
   
-      if (nextLineIndex === 0) {
-        setCurrentLine(lyrics.lines[0]);
+      // Handle the case where the timestamp is before the first line
+      if (nextLineIndex === -1) {
+        setCurrentLine(null);
+        return;
       }
   
+      // Set the current line based on the timestamp
       setCurrentLine(lyrics.lines[nextLineIndex - 1]);
     }, [timestamp]);
   
@@ -133,35 +136,43 @@ const RecommendationModal = ({
           </button>
       </div>
       </DrawerTrigger>
-      <DrawerContent className="max-h-[70vh]">
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
+      <DrawerContent className="max-h-[90vh]">
+        <div className="">
+          <DrawerHeader className="mb-2">
             <DrawerTitle>Move Goal</DrawerTitle>
             <DrawerDescription>Set your daily activity goal.</DrawerDescription>
           </DrawerHeader>
-          <main className="gap-5 text-left">
-      {lyrics.lines.map((line) => {
-        const isCurrentLine = currentLine?.startTimeMs === line.startTimeMs;
-        const isPastLine = Number(line.startTimeMs) < timestamp;
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-8">
+          <div className="px-6 h-96 lg:h-100% w-full max-w-2xl col-span-6 flex items-center mx-auto">
+          <iframe width="853" height="480" src="https://www.youtube.com/embed/GymXjJJ7Ugo" title="Children First Aid: Choking Child part 1  | First Aid | British Red Cross"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>
+          </div>
+          
+          <main className="gap-5 left-0">
+  {lyrics.lines.map((line, index) => {
+    const isCurrentLine = currentLine?.startTimeMs === line.startTimeMs;
+    const isPastLine = Number(line.startTimeMs) < timestamp;
 
-        return (
-          <p
-            ref={isCurrentLine ? currentLineRef : null}
-            className={clsx(
-              `text-2xl font-bold`,
-              isCurrentLine
-                ? "text-white"
-                : isPastLine
-                ? "text-gray-400"
-                : "text-black"
-            )}
-            key={line.startTimeMs}
-          >
-            {line.words}
-          </p>
-        );
-      })}
-    </main>
+    return (
+      <p
+        key={line.startTimeMs}
+        className={clsx(
+          "text-xl font-bold  ",
+          isCurrentLine && "text-indigo-300 mt-4 w-auto",
+          isPastLine && "text-gray-400",
+          !isCurrentLine && "hidden" 
+        )}
+        style={{
+          transition: "opacity 0.5s", 
+          opacity: isCurrentLine ? 1 : 0 
+        }}
+      >
+        {line.words}
+      </p>
+    );
+  })}
+</main>
+          </div>
+          
           <DrawerFooter>
             <DrawerClose asChild>
             </DrawerClose>
