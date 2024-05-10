@@ -22,6 +22,7 @@ const Login = () => {
     <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
       <img
         alt=""
+        data-testid="Login_image"
         src="https://img.freepik.com/free-vector/hand-drawn-asian-family-illustration_23-2149425676.jpg?t=st=1710262304~exp=1710265904~hmac=b491de63b42647a2ae2c532efc3132fe0d33fa26bbf52feaabc07e7759f423aa&w=740"
         className="absolute inset-0 h-full w-full object-cover opacity-80"
       />
@@ -31,6 +32,7 @@ const Login = () => {
           <span className="sr-only">Home</span>
           <Image
             src="/next.svg"
+            data-testid="Login_image_1"
             className='h-8 sm:h-10'
             width={500}
             height={500}
@@ -38,11 +40,11 @@ const Login = () => {
             />
         </a>
 
-        <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+        <h2 data-testid="text-title" className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
           Welcome to <span className=''>Distress</span>
         </h2>
 
-        <p className="mt-4 leading-relaxed text-white/90">
+        <p data-testid="text-paragraph" className="mt-4 leading-relaxed text-white/90">
         Swift and reliable emergency responses: your safety is our priority. Trust us for quick assistance when you need it most.
         </p>
       </div>
@@ -60,6 +62,7 @@ const Login = () => {
             <span className="sr-only">Home</span>
             <Image
       src="/next.svg"
+      data-testid="Login_image_1"
       className='h-8 sm:h-10 '
       width={500}
       height={500}
@@ -67,11 +70,11 @@ const Login = () => {
     />
           </a>
 
-          <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+          <h1  className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
             Welcome to <span className='text-red-600'>Distress</span>
           </h1>
 
-          <p className="mt-4 leading-relaxed text-gray-500">
+          <p  className="mt-4 leading-relaxed text-gray-500">
           Swift and reliable emergency responses: your safety is our priority. Trust us for quick assistance when you need it most.
           </p>
         </div>
@@ -84,14 +87,14 @@ const Login = () => {
                 className="size-5 rounded-md border-gray-200 bg-white shadow-sm"
               />
 
-              <span className="text-sm text-gray-700">
+              <span data-testid="checkbox-desc" className="text-sm text-gray-700">
                 I want to receive emails about events, product updates and company announcements.
               </span>
             </label>
           </div>
 
           <div className="col-span-6">
-            <p className="text-sm text-gray-500">
+            <p data-testid="terms-condition-desc" className="text-sm text-gray-500">
               By creating an account, you agree to our
               <a href="#" className="text-gray-700 underline"> terms and conditions </a>
               and
