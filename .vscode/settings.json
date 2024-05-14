@@ -3,7 +3,7 @@
         "defaulticon",
         "mediacapture"
     ],
-    "editor.fontSize": 13,
+    "editor.fontSize": 12,
     "WillLuke.nextjs.addTypesOnSave": true,
     "WillLuke.nextjs.hasPrompted": true
 }
