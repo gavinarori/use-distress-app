@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Snaky from './Snaky';
-import { Button } from "@/Components/ui/Button"
+import { Button } from "@/Components/Ui/Button"
 import {
   Drawer,
   DrawerClose,
@@ -11,7 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/Components/ui/Drawer"
+} from "@/Components/Ui/Drawer"
 
 
 const Insights: React.FC = () => {

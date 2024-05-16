@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation"
-import { useToast } from "@/Components/ui/use-toast"
+import { useToast } from "@/Components/Ui/Use-toast"
 import './loader.css'
-import Sidebar from '@/Components/sidebar/page';
+import Sidebar from '@/Components/Sidebar/page';
 import { Navbar } from '@/Components/navbar/page';
 import Cards from '@/Components/cards/page';
 import { useSignInModal } from '@/Components/modals/cancel';

@@ -4,7 +4,7 @@ import './globals.css'
 import {Navbar} from '@/Components/navbar/page'
 import Footer from '@/Components/footer/page'
 import Provider from '@/context/AuthContext'
-import { Toaster } from "@/Components/ui/toaster"
+import { Toaster } from "@/Components/Ui/toaster"
 import { Suspense } from 'react';
 import Loading from './loading'
 
