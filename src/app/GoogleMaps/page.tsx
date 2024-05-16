@@ -1,11 +1,11 @@
 "use client"
 import dynamic from "next/dynamic";
 import { useState, useEffect } from 'react';
-import CategoryList from '@/app/googleMaps/components/CategoryList';
-import RangeSelect from '@/app/googleMaps/components/RangeSelect';
-import Search from "./components/search";
+import CategoryList from './Components/CategoryList';
+import RangeSelect from './Components/RangeSelect';
+import Search from "./Components/Search";
 
-const DynamicMapComponent = dynamic(() => import("./components/MapComponent"), { ssr: false });
+const DynamicMapComponent = dynamic(() => import("./Components/MapComponent"), { ssr: false });
 
 const MyPage = () => {
   const [radius, setRadius] = useState(60);

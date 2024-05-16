@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/Components/ui/use-toast"
 import './loader.css'
-import Sidebar from '@/components/sidebar/page';
-import { Navbar } from '@/components/navbar/page';
-import Cards from '@/components/cards/page';
-import { useSignInModal } from '@/components/modals/cancel';
+import Sidebar from '@/Components/sidebar/page';
+import { Navbar } from '@/Components/navbar/page';
+import Cards from '@/Components/cards/page';
+import { useSignInModal } from '@/Components/modals/cancel';
 
 function Home() {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);

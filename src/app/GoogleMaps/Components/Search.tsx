@@ -1,6 +1,6 @@
 import React from 'react'
 
-const search = () => {
+const Search = () => {
     
   return (
     <div className="relative w-full max-w-xl mx-auto bg-white rounded-full">
@@ -19,4 +19,4 @@ const search = () => {
   )
 }
 
-export default search
+export default Search

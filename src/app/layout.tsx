@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from 'next/font/google'
 import './globals.css'
-import {Navbar} from '@/components/navbar/page'
-import Footer from '@/components/footer/page'
+import {Navbar} from '@/Components/navbar/page'
+import Footer from '@/Components/footer/page'
 import Provider from '@/context/AuthContext'
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/Components/ui/toaster"
 import { Suspense } from 'react';
 import Loading from './loading'
 
