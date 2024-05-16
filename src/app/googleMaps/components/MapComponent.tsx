@@ -84,19 +84,20 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
   const BoundsCircle: FC<{ center: [number, number], radius: number }> = ({ center, radius }) => {
     const map = useMap();
 
-    const topLeft = map.latLngToLayerPoint(center).subtract([radius, radius]);
-    const bottomRight = map.latLngToLayerPoint(center).add([radius, radius]);
-    const bounds = L.bounds(topLeft, bottomRight);
-
     useEffect(() => {
-      const rectangle = L.rectangle(L.latLngBounds(map.layerPointToLatLng(topLeft), map.layerPointToLatLng(bottomRight))).addTo(map);
-      return () => {
-        map.removeLayer(rectangle);
-      };
-    }, [map, bounds]);
+        const topLeft = map.latLngToLayerPoint(center).subtract([radius, radius]);
+        const bottomRight = map.latLngToLayerPoint(center).add([radius, radius]);
+        const bounds = L.bounds(topLeft, bottomRight);
+
+        const rectangle = L.rectangle(L.latLngBounds(map.layerPointToLatLng(topLeft), map.layerPointToLatLng(bottomRight))).addTo(map);
+        
+        return () => {
+            map.removeLayer(rectangle);
+        };
+    }, [map, center, radius]);
 
     return null;
-  };
+};
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (pos) {

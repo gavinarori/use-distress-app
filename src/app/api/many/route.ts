@@ -1,11 +1,11 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { main } from "../signal/route";
+import { connectDB } from "../db";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export const GET = async (req: Request, res: NextResponse) => {
   try {
-    await main();
+    await connectDB();
     const currentUser = await getCurrentUser();
     if(!currentUser?.id){
         return new NextResponse('Unauthorized', { status: 401 });

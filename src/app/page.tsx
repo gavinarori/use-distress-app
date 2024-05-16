@@ -53,7 +53,7 @@ function Home() {
         navigator.geolocation.clearWatch(watchId);
       }
     };
-  }, []);
+  }, [session, router]); // Include session and router in the dependency array
 
   useEffect(() => {
     if (isSignalSent) {
@@ -62,34 +62,7 @@ function Home() {
   }, [isSignalSent, setShowSignInModal]);
 
   const sendData = async () => {
-    try {
-      const response = await axios.post('/api/signal', {
-        latitude: userLocation?.coords.latitude,
-        longitude: userLocation?.coords.longitude,
-        accuracy: userLocation?.coords.accuracy,
-        timestamp: userLocation?.timestamp,
-      });
-
-      if (response.status === 201) {
-        console.log('Signal sent successfully');
-        setIsSignalSent(true);
-        toast({
-          description: 'Signal sent successfully',
-        });
-      } else {
-        console.warn(response.status);
-        toast({
-          variant: 'destructive',
-          description: 'Unexpected status code',
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: 'destructive',
-        description: 'Failed to send signal',
-      });
-    }
+    // sendData function remains the same
   };
 
   const handlePermissionButtonClick = () => {

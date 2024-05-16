@@ -1,12 +1,12 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { main } from "../route";
+import { connectDB } from "../../db";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getLocation from '@/app/actions/getLocation';
 
 export const PUT = async (req: Request, res: NextResponse) => {
     try {
-        await main();
+        await connectDB();
         const currentUser = await getCurrentUser();
         const location = await getLocation();
 

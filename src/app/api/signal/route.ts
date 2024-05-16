@@ -1,14 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import getCurrentUser from "@/app/actions/getCurrentUser";
-
-export async function main() {
-  try {
-    await prisma.$connect();
-  } catch (err) {
-    return Error("Database Connection failed");
-  }
-}
+import { connectDB } from '../db';
 
 export async function POST(
   request: Request,
@@ -17,7 +10,7 @@ export async function POST(
     const currentUser = await getCurrentUser();
     const body = await request.json()
     const { latitude, longitude, accuracy, timestamp } = body;
-    await main();
+    await connectDB();
     if (!currentUser?.id) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
