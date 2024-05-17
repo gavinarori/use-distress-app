@@ -5,7 +5,7 @@ import { resend } from "@/lib/email";
 async function sendOnboardingEmail(email: string, name: string) {
   try {
     await resend.emails.send({
-      from: "arorigavin@gmail.com",
+      from: "Distress app <onboarding@resend.dev>",
       to: email,
       subject: "Unlock the Future fast responses with Distress!",
       react: WelcomeEmail({
