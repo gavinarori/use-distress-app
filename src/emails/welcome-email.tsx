@@ -30,11 +30,18 @@ export default function WelcomeEmail({
       <Tailwind>
         <Body className="m-auto bg-white font-sans">
           <Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
-            <Section className="mt-8"></Section>
+          <Section className="mt-[32px]">
+              <Img
+                src="/distress-app-high-resolution-logo (2).png"
+                width="40"
+                height="37"
+                alt="Vercel"
+                className="my-0 mx-auto"
+              />
+            </Section>
             <Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
               Welcome to Distress
             </Heading>
-
             <Text className="text-sm leading-6 text-black">
               Thank you for joining us{name && `, ${name}`}!
             </Text>
