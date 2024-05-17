@@ -115,8 +115,9 @@ function Cards({ onSVGClick }:any) {
           <div className="md:col-span-1 lg:col-span-1">
             <div className="h-full py-8 px-6 space-y-6 rounded-xl border border-gray-200 bg-white">
             {showSVG  ? (
+              
         <svg
-          className='cursor-pointer'
+          className='cursor-pointer sm:h-[200px] sm:w-[200px] md:ml-6 lg:ml-6 '
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
           version="1.1"

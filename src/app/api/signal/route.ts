@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import { connectDB } from '../db';
+import { connectDB } from '../../../lib/db';
 
 export async function POST(
   request: Request,

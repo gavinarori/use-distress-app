@@ -11,7 +11,7 @@ import {
 } from "react";
 import Image from "next/image";
 import LoadingDots from "@/app/icons/loading-dots";
-import { lyrics } from "../../../assets/lyrics.json";
+import { lyrics } from "../../app/assets/lyrics.json";
 import clsx from "clsx";
 import {
     Drawer,
