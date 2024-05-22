@@ -10,7 +10,7 @@ import { nFormatter } from "@/lib/utils";
 export const Navbar =  async () => {
   const { data: session } = useSession();
   const { image, email } = session?.user || {};
-  const { stargazers_count: stars } = await fetch(
+  {/*/const { stargazers_count: stars } = await fetch(
     "https://api.github.com/repos/gavinarori/use-distress-app",
     {
       ...(process.env.GITHUB_OAUTH_TOKEN && {
@@ -25,6 +25,7 @@ export const Navbar =  async () => {
   )
     .then((res) => res.json())
     .catch((e) => console.log(e));
+   */}
   
   return (
     <div className="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
@@ -47,7 +48,7 @@ export const Navbar =  async () => {
             <Github />
             <p>
               <span className="hidden sm:inline-block">Star on</span> GitHub{" "}
-              <span className="font-semibold">{nFormatter(stars)}</span>
+              {/*/<span className="font-semibold">{nFormatter(stars)}</span> */}
             </p>
           </a>
                 <a

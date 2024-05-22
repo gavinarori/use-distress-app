@@ -158,53 +158,13 @@ function Cards({ onSVGClick }:any) {
     </div>
       )}
               <div>
-                <h5 className="text-xl text-gray-600 text-center">Global Activities</h5>
-                <div className="mt-2 flex justify-center gap-4">
-                  <h3 className="text-3xl font-bold text-gray-700">$23,988</h3>
-                  <div className="flex items-end gap-1 text-green-500">
-                    <svg
-                      className="w-3"
-                      viewBox="0 0 12 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 0C2.6875 0 0 2.6875 0 6C0 9.3125 2.6875 12 6 12C9.3125 12 12 9.3125 12 6C12 2.6875 9.3125 0 6 0ZM6 10.3125C3.29375 10.3125 1.6875 8.70625 1.6875 6C1.6875 3.29375 3.29375 1.6875 6 1.6875C8.70625 1.6875 10.3125 3.29375 10.3125 6C10.3125 8.70625 8.70625 10.3125 6 10.3125Z"
-                        fill="#00B871"
-                      />
-                    </svg>
-                    <span>2%</span>
-                  </div>
-                </div>
-                <span className="block text-center text-gray-500">Compared to last week $13,988</span>
+                <h5 className="text-xl text-gray-600 text-center">tap to Distress</h5>
+                <div className="mt-2 flex justify-center gap-4"></div>
+                <span className="block text-center text-gray-500 mt-3">Easily access instant relief with a single tap.</span>
               </div>
-              <table className="w-full text-gray-600">
-                <tbody>
-                  <tr>
-                    <td className="py-2">Tailored ui</td>
-                    <td className="text-gray-500">896</td>
-                    <td>
-                      <svg
-                        className="w-16 ml-auto"
-                        viewBox="0 0 68 21"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M68 10.5C68 16.0228 66.6728 20.9549 63.7279 25.0451C60.783 29.1354 56.4047 32.0979 51.6274 33.5728C46.8501 35.0477 41.8601 35.9612 37 36.2205"
-                          stroke="#6156DE"
-                          strokeWidth="3.92307"
-                          strokeLinecap="round"
-                        />
-                        {/* Additional SVG paths */}
-                      </svg>
-                    </td>
-                  </tr>
-                  {/* Additional table rows */}
-                </tbody>
-              </table>
             </div>
           </div>
+
           <div>
                 <div className="h-full py-6 px-6 rounded-xl border border-gray-200 bg-white">
                     <h5 className="text-xl text-gray-700">Downloads</h5>
@@ -212,71 +172,86 @@ function Cards({ onSVGClick }:any) {
                         <h1 className="text-5xl font-bold text-gray-800">64,5%</h1>
                         <span className="text-gray-500">Compared to last week $13,988</span>
                     </div>
-                    <svg className="w-full" viewBox="0 0 218 69" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 67.5C27.8998 67.5 24.6002 15 52.5 15C80.3998 15 77.1002 29 105 29C132.9 29 128.6 52 156.5 52C184.4 52 189.127 63.8158 217.027 63.8158" stroke="url(#paint0_linear_622:13664)" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M0 67.5C27.2601 67.5 30.7399 31 58 31C85.2601 31 80.7399 2 108 2C135.26 2 134.74 43 162 43C189.26 43 190.74 63.665 218 63.665" stroke="url(#paint1_linear_622:13664)" stroke-width="3" stroke-linecap="round"/>
-                        <defs>
-                        <linearGradient id="paint0_linear_622:13664" x1="217.027" y1="15" x2="7.91244" y2="15" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FF8080"/>
-                        <stop offset="1" stop-color="#FF8080"/>
-                        </linearGradient>
-                        <linearGradient id="paint1_linear_622:13664" x1="218" y1="18.3748" x2="5.4362" y2="18.9795" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#E323FF"/>
-                        <stop offset="1" stop-color="#7517F8"/>
-                        </linearGradient>
-                        </defs>
-                    </svg>
-                    <table className="mt-6 -mb-2 w-full text-gray-600">
-                        <tbody>
-                            <tr>
-                                <td className="py-2">From new users</td>
-                                <td className="text-gray-500">896</td>
-                                <td>
-                                    <svg className="w-16 ml-auto" viewBox="0 0 68 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="19" width="14" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="35" width="14" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="51" width="17" height="21" rx="1" fill="#e4e4f2"/>
-                                        <path d="M0 7C8.62687 7 7.61194 16 17.7612 16C27.9104 16 25.3731 9 34 9C42.6269 9 44.5157 5 51.2537 5C57.7936 5 59.3731 14.5 68 14.5" stroke="url(#paint0_linear_622:13631)" stroke-width="2" stroke-linejoin="round"/>
-                                        <defs>
-                                        <linearGradient id="paint0_linear_622:13631" x1="68" y1="7.74997" x2="1.69701" y2="8.10029" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#E323FF"/>
-                                        <stop offset="1" stop-color="#7517F8"/>
-                                        </linearGradient>
-                                        </defs>
-                                    </svg>
-                                </td>   
-                            </tr>
-                            <tr>
-                                <td className="py-2">From old users</td>
-                                <td className="text-gray-500">1200</td>
-                                <td>
-                                    <svg className="w-16 ml-auto" viewBox="0 0 68 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect opacity="0.4" width="17" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="19" width="14" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="35" width="14" height="21" rx="1" fill="#e4e4f2"/>
-                                        <rect opacity="0.4" x="51" width="17" height="21" rx="1" fill="#e4e4f2"/>
-                                        <path d="M0 12.929C8.69077 12.929 7.66833 9.47584 17.8928 9.47584C28.1172 9.47584 25.5611 15.9524 34.2519 15.9524C42.9426 15.9524 44.8455 10.929 51.6334 10.929C58.2217 10.929 59.3092 5 68 5" stroke="url(#paint0_linear_622:13640)" stroke-width="2" stroke-linejoin="round"/>
-                                        <defs>
-                                        <linearGradient id="paint0_linear_622:13640" x1="34" y1="5" x2="34" y2="15.9524" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#FF8080"/>
-                                        <stop offset="1" stop-color="#FF8080"/>
-                                        </linearGradient>
-                                        </defs>
-                                    </svg>
-                                </td>   
-                            </tr>
-                        </tbody>
-                    </table>   
+
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                    <a
+            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+            href="#"
+          >
+            <span className="sr-only"> Download </span>
+
+            <svg
+              className="size-5 rtl:rotate-180"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+            </svg>
+          </a>
+          <a
+            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+            href="#"
+          >
+            <span className="sr-only"> Download </span>
+
+            <svg
+              className="size-5 rtl:rotate-180"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+            </svg>
+          </a>
+          <a
+            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+            href="#"
+          >
+            <span className="sr-only"> Download </span>
+
+            <svg
+              className="size-5 rtl:rotate-180"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+            </svg>
+          </a>
+                    </div>
+                    
+
+          
+
+
                 </div>
             </div>
           
           <div>
           <Card>
       <CardHeader>
-        <CardTitle>Exercise Minutes</CardTitle>
+        <CardTitle>Distress Monitor</CardTitle>
         <CardDescription>
-          Your exercise minutes are ahead of where you normally are.
+        Monitor distress levels over time in global scope.
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-4">
@@ -371,7 +346,7 @@ function Cards({ onSVGClick }:any) {
       <TableHeader>
         <TableRow>
           <TableHead>ID</TableHead>
-          <TableHead>Accuracy</TableHead>
+          <TableHead>Checked</TableHead>
           <TableHead>Timestamp</TableHead>
         </TableRow>
       </TableHeader>
