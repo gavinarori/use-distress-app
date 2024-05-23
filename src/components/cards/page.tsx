@@ -167,85 +167,37 @@ function Cards({ onSVGClick }:any) {
 
           <div>
                 <div className="h-full py-6 px-6 rounded-xl border border-gray-200 bg-white">
-                    <h5 className="text-xl text-gray-700">Downloads</h5>
+                    <h5 className="text-xl text-gray-700">choose your emergency</h5>
                     <div className="my-8">
-                        <h1 className="text-5xl font-bold text-gray-800">64,5%</h1>
                         <span className="text-gray-500">Compared to last week $13,988</span>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-                    <a
-            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            href="#"
-          >
-            <span className="sr-only"> Download </span>
-
-            <svg
-              className="size-5 rtl:rotate-180"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-            </svg>
-          </a>
-          <a
-            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            href="#"
-          >
-            <span className="sr-only"> Download </span>
-
-            <svg
-              className="size-5 rtl:rotate-180"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-            </svg>
-          </a>
-          <a
-            className="inline-block rounded-full border border-indigo-600 bg-indigo-600 p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            href="#"
-          >
-            <span className="sr-only"> Download </span>
-
-            <svg
-              className="size-5 rtl:rotate-180"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-            </svg>
-          </a>
-                    </div>
-                    
-
-          
-
+  <a
+    className="flex items-center rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+    href=""
+  >
+    <img src="/first-aid-kit-svgrepo-com.svg" className='h-10 w-10' alt="First Aid Kit" />
+    <span className="ml-4 lg:hidden md:hidden sm:inline">First Aid</span>
+  </a>
+  <a
+    className="flex items-center  rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+    href=""
+  >
+    <img src="/ambulance-svgrepo-com.svg" className='w-10 h-10' alt="Ambulance" />
+    <span className="ml-2 lg:hidden md:hidden sm:inline">Ambulance</span>
+  </a>
+  <a
+    className="flex items-center  rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+    href=""
+  >
+    <img src="/fire-svgrepo-com.svg" className='w-10 h-10' alt="Fire" />
+    <span className="ml-2 lg:hidden md:hidden sm:inline">Fire brigade</span>
+  </a>
+</div>
 
                 </div>
             </div>
-          
           <div>
           <Card>
       <CardHeader>
