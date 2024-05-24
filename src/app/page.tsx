@@ -8,12 +8,16 @@ import './loader.css'
 import Sidebar from '@/components/Sidebar/page';
 import { Navbar } from '@/components/navbar/page';
 import Cards from '@/components/cards/page';
+import GoogleMaps from '@/app/GoogleMaps/page'
+import Analytics from '@/app/analytics/page'
+import Insights from './Insights/page';
 import { useSignInModal } from '@/components/modals/cancel';
 
 function Home() {
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
+  const [currentView, setCurrentView] = useState('cards');
   const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
   const { data: session, status }: any = useSession();
@@ -107,11 +111,26 @@ function Home() {
     }
   };
 
+  const renderContent = () => {
+    switch (currentView) {
+      case 'cards':
+        return <Cards onSVGClick={handleSVGClick} />;
+      case 'googlemaps':
+        return <GoogleMaps />;
+      case 'insights':
+        return <Insights />;
+      case 'analytics':
+        return <Analytics />;
+      default:
+        return <Cards onSVGClick={handleSVGClick} />;
+    }
+  };
+
   return (
     <main className=''>
-      <Sidebar />
+      <Sidebar setCurrentView={setCurrentView}/>
       <Navbar />
-      <Cards onSVGClick={handleSVGClick} />
+      {renderContent()}
       <SignInModal />
     </main>
   )

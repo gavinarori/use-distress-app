@@ -49,6 +49,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
   locations     Location[]
+  firstaids      FirstAid[]
+  ambulances     Ambulance[]
+  Firebrigades   FireBrigade[]
+
 }
 
 model VerificationToken {
@@ -72,7 +76,55 @@ model Location {
   date            DateTime @default(now())
   userId          String @db.ObjectId
   user            User   @relation(fields: [userId], references: [id])
+
+
+  @@index([userId])
 }
 
 
 
+model FirstAid{
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  latitude        Float
+  longitude       Float
+  accuracy        Float
+  timestamp       DateTime
+  confirmSend     Boolean  @default(false)
+  isChecked       Boolean  @default(false)
+  isCanceled      Boolean  @default(false)
+  userId          String @db.ObjectId
+  user            User   @relation(fields: [userId], references: [id])
+
+
+  @@index([userId])
+}
+
+model Ambulance{
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  latitude        Float
+  longitude       Float
+  accuracy        Float
+  timestamp       DateTime
+  isChecked       Boolean  @default(false)
+  isCanceled      Boolean  @default(false)
+  userId          String @db.ObjectId
+  user            User   @relation(fields: [userId], references: [id])
+
+
+  @@index([userId])
+}
+
+model FireBrigade{
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  latitude        Float
+  longitude       Float
+  accuracy        Float
+  timestamp       DateTime
+  isChecked       Boolean  @default(false)
+  isCanceled      Boolean  @default(false)
+  userId          String @db.ObjectId
+  user            User   @relation(fields: [userId], references: [id])
+
+
+  @@index([userId])
+}

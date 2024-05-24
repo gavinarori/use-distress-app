@@ -48,7 +48,8 @@ const MyPage = () => {
     }, []);
     
   return (
-    <div className='grid grid-cols-1 md:grid-cols-4'>
+    <div className="flex justify-center item-center lg:ml-[270px]  pt-3">
+      <div className='grid grid-cols-1 md:grid-cols-4'>
       <div className='p-3 '>
         <CategoryList onCategoryChange={(value) => setCategory(value)} />
         <RangeSelect onRadiusChange={(value) => setRadius(value)} />
@@ -60,6 +61,8 @@ const MyPage = () => {
         <DynamicMapComponent  radius={radius} category={category} locations={locations} />
       </div>
     </div>
+    </div>
+    
   );
 };
 

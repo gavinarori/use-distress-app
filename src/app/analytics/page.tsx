@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Metric, Text, Title, BarList, Flex, Grid } from '@tremor/react';
 import Chart from './chart';
+import { divIcon } from 'leaflet';
 
 interface Offense {
   name: string;
@@ -148,7 +149,8 @@ export default function PlaygroundPage(): JSX.Element {
   ];
 
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <div className='flex justify-center item-center lg:ml-[200px]'>
+      <div className="p-4 md:p-10 mx-auto max-w-7xl">
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6 ">
         {data.map((item) => (
           <Card key={item.category} className="rounded-lg">
@@ -186,6 +188,8 @@ export default function PlaygroundPage(): JSX.Element {
         </select>
       </div>
       <Chart />
-    </main>
+    </div>
+    </div>
+    
   );
 }
