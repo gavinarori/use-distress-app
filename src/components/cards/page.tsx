@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/card"
 import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts"
 import Svg from '@/app/icons/svg';
+import axios from 'axios'
+import { useToast } from "@/components/ui/use-toast"
+import './loading.css'
 
 
 interface Location {
@@ -62,6 +65,14 @@ function Cards({ onSVGClick }:any) {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showSVG, setShowSVG] = useState(true);
   const [locations, setLocations] = useState<Location[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSignalSent, setIsSignalSent] = useState(false);
+  const { toast } = useToast();
+  const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
+
+  useEffect(() => {
+    
+  }, []);
  
 
   useEffect(() => {
@@ -84,6 +95,67 @@ function Cards({ onSVGClick }:any) {
     setShowSVG(!showSVG);
     onSVGClick();
   };
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation(position);
+        },
+        (error) => {
+          console.error('Error getting location', error);
+          toast({
+            variant: 'destructive',
+            description: 'Failed to get user location',
+          });
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }, [toast]);
+  
+
+  const EmergencytypeData = async (url: string) => {
+    if (!userLocation) {
+      toast({
+        variant: 'destructive',
+        description: 'User location not available',
+      });
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await axios.post(url, {
+        latitude: userLocation?.coords.latitude,
+        longitude: userLocation?.coords.longitude,
+        accuracy: userLocation?.coords.accuracy,
+        timestamp: userLocation?.timestamp,
+      });
+
+      if (response.status === 201) {
+        console.log('Signal sent successfully');
+        setIsSignalSent(true);
+        toast({
+          description: 'Signal sent successfully',
+        });
+      } else {
+        console.warn(response.status);
+        toast({
+          variant: 'destructive',
+          description: 'Unexpected status code',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        description: 'Failed to send signal',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -173,27 +245,97 @@ function Cards({ onSVGClick }:any) {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
-  <a
+                    {isLoading && <div className='flex justify-center items-center'>		<svg className="pl" viewBox="0 0 160 160" width="160px" height="160px" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+					<stop offset="0%" stop-color="#000"></stop>
+					<stop offset="100%" stop-color="#fff"></stop>
+				</linearGradient>
+				<mask id="mask1">
+					<rect x="0" y="0" width="160" height="160" fill="url(#grad)"></rect>
+				</mask>
+				<mask id="mask2">
+					<rect x="28" y="28" width="104" height="104" fill="url(#grad)"></rect>
+				</mask>
+			</defs>
+			
+			<g>
+				<g className="pl__ring-rotate">
+					<circle className="pl__ring-stroke" cx="80" cy="80" r="72" fill="none" stroke="hsl(223,90%,55%)" strokeWidth="16" strokeDasharray="452.39 452.39" strokeDashoffset="452" strokeLinecap="round" transform="rotate(-45,80,80)"></circle>
+				</g>
+			</g>
+			<g mask="url(#mask1)">
+				<g className="pl__ring-rotate">
+					<circle className="pl__ring-stroke" cx="80" cy="80" r="72" fill="none" stroke="hsl(193,90%,55%)" strokeWidth="16" strokeDasharray="452.39 452.39" strokeDashoffset="452" strokeLinecap="round" transform="rotate(-45,80,80)"></circle>
+				</g>
+			</g>
+			
+			<g>
+				<g stroke-width="4" strokeDasharray="12 12" strokeDashoffset="12" strokeLinecap="round" transform="translate(80,80)">
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(-135,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(-90,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(-45,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(0,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(45,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(90,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(135,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,10%,90%)" points="0,2 0,14" transform="rotate(180,0,0) translate(0,40)"></polyline>
+				</g>
+			</g>
+			<g mask="url(#mask1)">
+				<g stroke-width="4" strokeDasharray="12 12" strokeDashoffset="12" strokeLinecap="round" transform="translate(80,80)">
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(-135,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(-90,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(-45,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(0,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(45,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(90,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(135,0,0) translate(0,40)"></polyline>
+					<polyline className="pl__tick" stroke="hsl(223,90%,80%)" points="0,2 0,14" transform="rotate(180,0,0) translate(0,40)"></polyline>
+				</g>
+			</g>
+			
+			<g>
+				<g transform="translate(64,28)">
+					<g className="pl__arrows" transform="rotate(45,16,52)">
+						<path fill="hsl(3,90%,55%)" d="M17.998,1.506l13.892,43.594c.455,1.426-.56,2.899-1.998,2.899H2.108c-1.437,0-2.452-1.473-1.998-2.899L14.002,1.506c.64-2.008,3.356-2.008,3.996,0Z"></path>
+						<path fill="hsl(223,10%,90%)" d="M14.009,102.499L.109,58.889c-.453-1.421,.559-2.889,1.991-2.889H29.899c1.433,0,2.444,1.468,1.991,2.889l-13.899,43.61c-.638,2.001-3.345,2.001-3.983,0Z"></path>
+					</g>
+				</g>
+			</g>
+			<g mask="url(#mask2)">
+				<g transform="translate(64,28)">
+					<g className="pl__arrows" transform="rotate(45,16,52)">
+						<path fill="hsl(333,90%,55%)" d="M17.998,1.506l13.892,43.594c.455,1.426-.56,2.899-1.998,2.899H2.108c-1.437,0-2.452-1.473-1.998-2.899L14.002,1.506c.64-2.008,3.356-2.008,3.996,0Z"></path>
+						<path fill="hsl(223,90%,80%)" d="M14.009,102.499L.109,58.889c-.453-1.421,.559-2.889,1.991-2.889H29.899c1.433,0,2.444,1.468,1.991,2.889l-13.899,43.61c-.638,2.001-3.345,2.001-3.983,0Z"></path>
+					</g>
+				</g>
+			</g>
+		</svg></div>}
+  <button
+    onClick={() => EmergencytypeData('/api/emergencytypes/firstaid')}
     className="flex items-center rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    href=""
+    disabled={isLoading}
   >
     <img src="/first-aid-kit-svgrepo-com.svg" className='h-10 w-10' alt="First Aid Kit" />
     <span className="ml-4 lg:hidden md:hidden sm:inline">First Aid</span>
-  </a>
-  <a
+  </button>
+  <button
+    onClick={() => EmergencytypeData('/api/emergencytypes/ambulance')}
     className="flex items-center  rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    href=""
+    disabled={isLoading}
   >
     <img src="/ambulance-svgrepo-com.svg" className='w-10 h-10' alt="Ambulance" />
     <span className="ml-2 lg:hidden md:hidden sm:inline">Ambulance</span>
-  </a>
-  <a
+  </button>
+  <button
+  onClick={() => EmergencytypeData('/api/emergencytypes/firebrigade')}
     className="flex items-center  rounded-full border border-indigo-600 bg-[#FF8080] p-3 ml-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    href=""
+    disabled={isLoading}
   >
     <img src="/fire-svgrepo-com.svg" className='w-10 h-10' alt="Fire" />
     <span className="ml-2 lg:hidden md:hidden sm:inline">Fire brigade</span>
-  </a>
+  </button>
 </div>
 
                 </div>
