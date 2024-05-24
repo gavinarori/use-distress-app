@@ -164,7 +164,7 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
         zoom={11}
         style={{ height: "100vh", width: "100vw" }}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
         
         {filteredCrimeData.map((crime, index) => (
           <Marker key={index} position={[crime.geometry.y, crime.geometry.x]} icon={crimeIcon}>
