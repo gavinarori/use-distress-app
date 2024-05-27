@@ -4,15 +4,17 @@ import { useSession ,signOut } from "next-auth/react";
 import Image from "next/image";
 
 interface SidebarProps {
+    isOpen: boolean;
     setCurrentView: (view: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ setCurrentView }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, setCurrentView }) => {
     const { data: session } = useSession();
   const { image, email } = session?.user || {};
   
     return (
-        <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-auto flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+        <aside className={`fixed z-10 top-0 pb-3 px-6 w-auto flex flex-col justify-between h-screen border-r bg-white transition-transform duration-300
+        ${isOpen ? 'transform-none' : '-translate-x-full'} md:w-4/12 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] lg:translate-x-0`}>
             <div>
                 <div className="-mx-6 px-6 py-4 flex flex-row">
                     <a href="#" title="home">
@@ -27,8 +29,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setCurrentView }) => {
             src={image || `https://avatars.dicebear.com/api/micah/${email}.svg`}
            
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28" />
-                    <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{session?.user?.name}</h5>
-                    <span className="hidden text-gray-400 lg:block">{session?.user?.email}</span>
+                    <h5 className=" mt-4 text-xl font-semibold text-gray-600 lg:block">{session?.user?.name}</h5>
+                    <span className=" text-gray-400 lg:block">{session?.user?.email}</span>
                 </div>
 
                 <ul className="space-y-2 tracking-wide mt-8">

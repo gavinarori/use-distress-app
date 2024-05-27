@@ -24,6 +24,11 @@ function Home() {
   const { toast } = useToast();
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const [isSignalSent, setIsSignalSent] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(() => {
     if (!session) {
@@ -127,9 +132,9 @@ function Home() {
   };
 
   return (
-    <main className=''>
-      <Sidebar setCurrentView={setCurrentView}/>
-      <Navbar />
+    <main className="">
+      <Sidebar isOpen={isSidebarOpen} setCurrentView={setCurrentView}/>
+      <Navbar  toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       {renderContent()}
       <SignInModal />
     </main>
