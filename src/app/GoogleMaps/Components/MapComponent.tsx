@@ -104,6 +104,7 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
       setUserLocation([pos.coords.latitude, pos.coords.longitude]);
     });
   }, []);
+  
 
 
   useEffect(() => {
