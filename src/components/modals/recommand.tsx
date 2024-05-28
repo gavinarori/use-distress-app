@@ -106,9 +106,7 @@ const RecommendationModal = ({
           <p className="text-sm text-gray-500">
             This is strictly for demo purposes - only when  you are in a real emergency situation should you call an ambulance or first aid service.
             Get a free first aid course with us! This is an introductory video to help you understand the basics of CPR and how
-            Are you a first aid trainer? Do you know someone who is? We can help connect you with people in need of your expertise
-            Are you a first aid trainer? Do you know someone who is? We need your help to add them to our directory! Please fill
-            Get a free first aid course with our app! Just click the button below to get started
+            Are you a first aid trainer? Do you know someone who is? 
           </p>
         </div>  
           <Drawer>
