@@ -60,7 +60,7 @@ const data = [
   },
 ]
 
-function Cards({ onSVGClick }:any) {
+function Cards({ onSVGClick , setShowSignInModal }:any) {
   const [currentDate, setCurrentDate] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showSVG, setShowSVG] = useState(true);
@@ -135,6 +135,7 @@ function Cards({ onSVGClick }:any) {
       if (response.status === 201) {
         console.log('Signal sent successfully');
         setIsSignalSent(true);
+        setShowSignInModal(true);
         toast({
           description: 'Signal sent successfully',
         });

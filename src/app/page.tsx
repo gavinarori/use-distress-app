@@ -119,7 +119,7 @@ function Home() {
   const renderContent = () => {
     switch (currentView) {
       case 'cards':
-        return <Cards onSVGClick={handleSVGClick} />;
+        return <Cards onSVGClick={handleSVGClick}  setShowSignInModal={setShowSignInModal}/>;
       case 'googlemaps':
         return <GoogleMaps />;
       case 'insights':
