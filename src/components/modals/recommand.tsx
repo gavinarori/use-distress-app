@@ -24,8 +24,16 @@ import {
     DrawerTrigger,
   } from "@/components/ui/drawer"
 
+  const firstAidVideos = [
+    { type: "Choking", url: "https://www.youtube.com/embed/GymXjJJ7Ugo" },
+    { type: "CPR", url: "https://www.youtube.com/embed/2PngCv7NjaI" },
+    { type: "Burns", url: "https://www.youtube.com/embed/ZADAI1gjxno" },
+    { type: "Bleeding", url: "https://www.youtube.com/embed/8sEijZkfUHI" },
+];
+
   function useDummyAudio(length: number) {
     const [timestamp, setTimestamp] = useState(0);
+
   
     useEffect(() => {
       const interval = setInterval(() => {
@@ -75,6 +83,7 @@ const RecommendationModal = ({
   setShowRecommendationModal: Dispatch<SetStateAction<boolean>>;
 }) => {
     const [RecommendationClicked, setRecommendationClicked] = useState(false);
+    const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
     const currentLineRef = useRef<HTMLParagraphElement | null>(null);
     const { timestamp } = useDummyAudio(178000);
     const { currentLine } = useCurrentLine(timestamp);
@@ -112,38 +121,35 @@ const RecommendationModal = ({
           <Drawer>
       <DrawerTrigger asChild>
       <div className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 md:px-16">
-      <button
-            disabled={RecommendationClicked}
-            className={`${
-                RecommendationClicked
-                ? "cursor-not-allowed border-gray-200 bg-gray-100"
-                : "border border-gray-200 bg-white text-black hover:bg-gray-50"
-            } flex h-10 w-full items-center justify-center space-x-3 rounded-md border text-sm shadow-sm transition-all duration-75 focus:outline-none`}
-            onClick={() => {
-              setRecommendationClicked(true);
-              
-            }}
-          >
-            {RecommendationClicked ? (
-              <LoadingDots color="#808080" />
-            ) : (
-              <>
-                <p>get started</p>
-              </>
-            )}
-          </button>
-      </div>
+                            {firstAidVideos.map((video) => (
+                                <button
+                                    key={video.type}
+                                    className="border border-gray-200 bg-white text-black hover:bg-gray-50 flex h-10 w-full items-center justify-center space-x-3 rounded-md text-sm shadow-sm transition-all duration-75 focus:outline-none"
+                                    onClick={() => setSelectedVideo(video.url)}
+                                >
+                                    <p>{video.type}</p>
+                                </button>
+                            ))}
+                        </div>
       </DrawerTrigger>
       <DrawerContent className="max-h-[90vh]">
         <div className="">
           <DrawerHeader className="mb-2">
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          <DrawerTitle>First Aid Videos</DrawerTitle>
+          <DrawerDescription>Select a first aid topic to watch the video.</DrawerDescription>
           </DrawerHeader>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-8">
           <div className="px-6 h-96 lg:h-100% w-full max-w-2xl col-span-6 flex items-center mx-auto">
-          <iframe width="853" height="480" src="https://www.youtube.com/embed/GymXjJJ7Ugo" title="Children First Aid: Choking Child part 1  | First Aid | British Red Cross"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>
-          </div>
+                                    {selectedVideo && (
+                                        <iframe
+                                            width="853"
+                                            height="480"
+                                            src={selectedVideo}
+                                            title="First Aid Video"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        ></iframe>
+                                    )}
+                                </div>
           
           <main className="gap-5 left-0">
   {lyrics.lines.map((line, index) => {
