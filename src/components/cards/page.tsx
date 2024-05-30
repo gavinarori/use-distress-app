@@ -119,7 +119,7 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     if (!userLocation) {
       toast({
         variant: 'destructive',
-        description: 'User location not available',
+        description: 'User location not available allow Distress app to your location',
       });
       return;
     }
@@ -137,7 +137,7 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
         setIsSignalSent(true);
         setShowSignInModal(true);
         toast({
-          description: 'Signal sent successfully',
+          description: 'Distress Signal sent successfully',
         });
       } else {
         console.warn(response.status);

@@ -83,7 +83,7 @@ function Home() {
         console.log('Signal sent successfully');
         setIsSignalSent(true);
         toast({
-          description: 'Signal sent successfully',
+          description: 'Distress Signal sent successfully',
         });
       } else {
         console.warn(response.status);
