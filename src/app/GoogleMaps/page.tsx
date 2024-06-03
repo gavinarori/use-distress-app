@@ -57,7 +57,7 @@ const MyPage = () => {
           <Search />
         </div>
       </div>
-      <div className='col-start-3 '>
+      <div className='col-span-3'>
         <DynamicMapComponent  radius={radius} category={category} locations={locations} />
       </div>
     </div>
