@@ -62,7 +62,7 @@ function Home() {
         navigator.geolocation.clearWatch(watchId);
       }
     };
-  }, [session, router]); // Include session and router in the dependency array
+  }, []); // Include session and router in the dependency array
 
   useEffect(() => {
     if (isSignalSent) {
