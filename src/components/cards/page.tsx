@@ -20,7 +20,7 @@ import Svg from '@/app/icons/svg';
 import axios from 'axios'
 import { useToast } from "@/components/ui/use-toast"
 import './loading.css'
-
+import './loader.css'
 
 interface Location {
   id: string;
@@ -92,7 +92,7 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
   const handleClick = () => {
     setShowSVG(!showSVG);
     onSVGClick();
-    }
+  };
   
   const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
   useEffect(() => {
