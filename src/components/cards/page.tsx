@@ -89,10 +89,10 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     return () => clearInterval(interval);
   }, []);
   
-  const handleClick = useCallback(() => {
-    setShowSVG((prev) => !prev);
+  const handleClick = () => {
+    setShowSVG(!showSVG);
     onSVGClick();
-  }, [onSVGClick]);
+    }
   
   const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
   useEffect(() => {
