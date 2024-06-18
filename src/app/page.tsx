@@ -1,10 +1,9 @@
 "use client"
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
-import './loader.css'
 import Sidebar from '@/components/Sidebar/page';
 import { Navbar } from '@/components/navbar/page';
 import Cards from '@/components/cards/page';
@@ -18,13 +17,15 @@ function Home() {
   const [error, setError] = useState<string | null>(null);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [currentView, setCurrentView] = useState('cards');
-  const [showSVG, setShowSVG] = useState(true);
   const router = useRouter();
   const { data: session, status }: any = useSession();
   const { toast } = useToast();
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const [isSignalSent, setIsSignalSent] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  // Memoize the user location to prevent unnecessary re-renders
+  const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -62,7 +63,7 @@ function Home() {
         navigator.geolocation.clearWatch(watchId);
       }
     };
-  }, []); // Include session and router in the dependency array
+  }, [session, router]); 
 
   useEffect(() => {
     if (isSignalSent) {
@@ -73,10 +74,10 @@ function Home() {
   const sendData = async () => {
     try {
       const response = await axios.post('/api/signal', {
-        latitude: userLocation?.coords.latitude,
-        longitude: userLocation?.coords.longitude,
-        accuracy: userLocation?.coords.accuracy,
-        timestamp: userLocation?.timestamp,
+        latitude: memoizedUserLocation?.coords.latitude,
+        longitude: memoizedUserLocation?.coords.longitude,
+        accuracy: memoizedUserLocation?.coords.accuracy,
+        timestamp: memoizedUserLocation?.timestamp,
       });
 
       if (response.status === 201) {
@@ -101,25 +102,14 @@ function Home() {
     }
   };
 
-  const handlePermissionButtonClick = () => {
-    setShowPermissionModal(false);
-  };
-
   const handleSVGClick = () => {
     sendData();
-  };
-
-  const closeModal = () => {
-    const modal = document.getElementById('my-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
   };
 
   const renderContent = () => {
     switch (currentView) {
       case 'cards':
-        return <Cards onSVGClick={handleSVGClick}  setShowSignInModal={setShowSignInModal}/>;
+        return <Cards onSVGClick={handleSVGClick} setShowSignInModal={setShowSignInModal} />;
       case 'googlemaps':
         return <GoogleMaps />;
       case 'insights':
@@ -133,8 +123,8 @@ function Home() {
 
   return (
     <main className="">
-      <Sidebar isOpen={isSidebarOpen} setCurrentView={setCurrentView}/>
-      <Navbar  toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <Sidebar isOpen={isSidebarOpen} setCurrentView={setCurrentView} />
+      <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       {renderContent()}
       <SignInModal />
     </main>

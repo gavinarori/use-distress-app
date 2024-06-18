@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState , useCallback} from 'react';
 import {
   Table,
   TableBody,
@@ -70,9 +70,6 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
   const { toast } = useToast();
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
 
-  useEffect(() => {
-    
-  }, []);
  
 
   useEffect(() => {
@@ -91,16 +88,18 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     // Clear interval on unmount
     return () => clearInterval(interval);
   }, []);
-  const handleClick = () => {
-    setShowSVG(!showSVG);
+  
+  const handleClick = useCallback(() => {
+    setShowSVG((prev) => !prev);
     onSVGClick();
-  };
+  }, [onSVGClick]);
+  
+  const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation(position);
-        },
+        (position) => setUserLocation(position),
         (error) => {
           console.error('Error getting location', error);
           toast({
@@ -115,8 +114,8 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
   }, [toast]);
   
 
-  const EmergencytypeData = async (url: string) => {
-    if (!userLocation) {
+  const EmergencytypeData = useCallback(async (url: string) => {
+    if (!memoizedUserLocation) {
       toast({
         variant: 'destructive',
         description: 'User location not available allow Distress app to your location',
@@ -126,12 +125,11 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     setIsLoading(true);
     try {
       const response = await axios.post(url, {
-        latitude: userLocation?.coords.latitude,
-        longitude: userLocation?.coords.longitude,
-        accuracy: userLocation?.coords.accuracy,
-        timestamp: userLocation?.timestamp,
+        latitude: memoizedUserLocation.coords.latitude,
+        longitude: memoizedUserLocation.coords.longitude,
+        accuracy: memoizedUserLocation.coords.accuracy,
+        timestamp: memoizedUserLocation.timestamp,
       });
-
       if (response.status === 201) {
         console.log('Signal sent successfully');
         setIsSignalSent(true);
@@ -155,7 +153,8 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast, memoizedUserLocation, setShowSignInModal]);
+
 
 
   useEffect(() => {
