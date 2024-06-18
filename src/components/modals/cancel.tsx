@@ -31,6 +31,7 @@ const SignInModal = ({
         toast({
           description: 'Location cancelled successfully',
         });
+        setShowSignInModal(false);
       } else {
         console.warn(response.status);
         toast({
@@ -62,7 +63,7 @@ const SignInModal = ({
                       
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to cancel your call?  Note that even though you cancel someone will be sent to confirm.
+                          Are you sure you want to proceed with your call?  Note that even though you cancel someone will be sent to confirm.
                         </p>
                       </div>
                     </div>
