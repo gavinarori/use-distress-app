@@ -95,11 +95,16 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
   }, [onSVGClick]);
   
   const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
-
   useEffect(() => {
-    if (navigator.geolocation) {
+    let isMounted = true; // Flag to track if component is mounted
+  
+    if (navigator.geolocation && isMounted) {
       navigator.geolocation.getCurrentPosition(
-        (position) => setUserLocation(position),
+        (position) => {
+          if (isMounted) {
+            setUserLocation(position);
+          }
+        },
         (error) => {
           console.error('Error getting location', error);
           toast({
@@ -111,7 +116,12 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
-  }, [toast]);
+  
+    // Clean up function to set isMounted to false when component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   
 
   const EmergencytypeData = useCallback(async (url: string) => {

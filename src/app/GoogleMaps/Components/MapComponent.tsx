@@ -99,12 +99,32 @@ const MapComponent: FC<{ radius: number, category: string | null , locations:any
     return null;
 };
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      setUserLocation([pos.coords.latitude, pos.coords.longitude]);
-    });
-  }, []);
-  
+useEffect(() => {
+  let isMounted = true; // Flag to track if component is mounted
+
+  if (navigator.geolocation && isMounted) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        if (isMounted) {
+          setUserLocation([position.coords.latitude, position.coords.longitude]);
+        }
+      },
+      (error) => {
+        console.error('Error getting location', error);
+        // Handle error if needed
+      }
+    );
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+    // Handle lack of geolocation support if needed
+  }
+
+  // Clean up function to set isMounted to false when component unmounts
+  return () => {
+    isMounted = false;
+  };
+}, []); // Empty dependency array ensures this effect runs only once on component mount
+
 
 
   useEffect(() => {

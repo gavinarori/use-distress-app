@@ -31,39 +31,44 @@ function Home() {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(() => {
-    if (!session) {
-      router.push("/login")
+  useEffect(() =>{
+  if (!session) {
+    router.push("/login")
     }
+},[session , router]);
 
-    let watchId: number | undefined;
-
-    const updateLocation = (position: GeolocationPosition) => {
-      setUserLocation(position);
-    };
-
+  useEffect(() => {
+    let watchId: any;
+  
     const errorLocation = (error: GeolocationPositionError) => {
       setError(error.message);
       if (error.code === GeolocationPositionError.PERMISSION_DENIED) {
         setShowPermissionModal(true);
       }
     };
-
+  
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(updateLocation, errorLocation);
-
-      watchId = navigator.geolocation.watchPosition(updateLocation, errorLocation);
+      watchId = navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation(position);
+        },
+        errorLocation
+      );
+  
+      // No need to watch for continuous updates after fetching once
+      // watchId = navigator.geolocation.watchPosition(updateLocation, errorLocation);
     } else {
       setError('Geolocation is not available in this browser.');
     }
-
+  
     // Clean up the watchPosition when the component unmounts
     return () => {
       if (watchId) {
         navigator.geolocation.clearWatch(watchId);
       }
+      return undefined; // Explicitly return undefined to satisfy TypeScript
     };
-  }, [session, router]); 
+  }, []);
 
   useEffect(() => {
     if (isSignalSent) {
