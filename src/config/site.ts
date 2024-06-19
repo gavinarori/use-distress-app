@@ -13,5 +13,5 @@ export const siteConfig: SiteConfig = {
     twitter: "https://twitter.com/gavinogwanwa",
     github: "https://github.com/gavinarori",
   },
-  mailSupport: "christer@sailsdock.com",
+  mailSupport: "",
 };
