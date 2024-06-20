@@ -23,6 +23,7 @@ function Home() {
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const [isSignalSent, setIsSignalSent] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   // Memoize the user location to prevent unnecessary re-renders
   const memoizedUserLocation = useMemo(() => userLocation, [userLocation]);
@@ -77,6 +78,7 @@ function Home() {
   }, [isSignalSent, setShowSignInModal]);
 
   const sendData = async () => {
+    setLoading(true); // Set loading state to true before sending data
     try {
       const response = await axios.post('/api/signal', {
         latitude: memoizedUserLocation?.coords.latitude,
@@ -104,6 +106,8 @@ function Home() {
         variant: 'destructive',
         description: 'Failed to send signal',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,7 +118,7 @@ function Home() {
   const renderContent = () => {
     switch (currentView) {
       case 'cards':
-        return <Cards onSVGClick={handleSVGClick} setShowSignInModal={setShowSignInModal} />;
+        return <Cards onSVGClick={handleSVGClick} Loading={Loading}  setShowSignInModal={setShowSignInModal} />;
       case 'googlemaps':
         return <GoogleMaps />;
       case 'insights':

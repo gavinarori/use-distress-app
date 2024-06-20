@@ -60,7 +60,7 @@ const data = [
   },
 ]
 
-function Cards({ onSVGClick , setShowSignInModal }:any) {
+function Cards({ onSVGClick  ,Loading, setShowSignInModal }:any) {
   const [currentDate, setCurrentDate] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showSVG, setShowSVG] = useState(true);
@@ -90,7 +90,6 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
   }, []);
   
   const handleClick = () => {
-    setShowSVG(!showSVG);
     onSVGClick();
   };
   
@@ -197,8 +196,26 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
           <div className="md:col-span-1 lg:col-span-1">
             <div className="h-full w-auto py-8 px-6 space-y-6 rounded-xl border border-gray-200 bg-white">
-            {showSVG  ? (
-              <div className='flex justify-center'>
+            {Loading  ? (
+              <div className="socket">
+        <div className="gel center-gel">
+            <div className="hex-brick h1"></div>
+            <div className="hex-brick h2"></div>
+            <div className="hex-brick h3"></div>
+        </div>
+        {[...Array(37)].map((_, index) => (
+            <div key={index} className={`gel c${index + 1} r${index < 6 ? 1 : (index < 15 ? 2 : 3)}`}>
+                <div className="hex-brick h1"></div>
+                <div className="hex-brick h2"></div>
+                <div className="hex-brick h3"></div>
+            </div>
+        ))}
+    </div>
+              
+              
+        
+      ) : (
+        <div className='flex justify-center'>
                 <svg
           className='cursor-pointer h-[200px] w-[200px]'
           xmlns="http://www.w3.org/2000/svg"
@@ -222,22 +239,6 @@ function Cards({ onSVGClick , setShowSignInModal }:any) {
     </g>
         </svg>
               </div>
-        
-      ) : (
-        <div className="socket">
-        <div className="gel center-gel">
-            <div className="hex-brick h1"></div>
-            <div className="hex-brick h2"></div>
-            <div className="hex-brick h3"></div>
-        </div>
-        {[...Array(37)].map((_, index) => (
-            <div key={index} className={`gel c${index + 1} r${index < 6 ? 1 : (index < 15 ? 2 : 3)}`}>
-                <div className="hex-brick h1"></div>
-                <div className="hex-brick h2"></div>
-                <div className="hex-brick h3"></div>
-            </div>
-        ))}
-    </div>
       )}
               <div>
                 <h5 className="text-xl text-gray-600 text-center">tap to Distress</h5>
